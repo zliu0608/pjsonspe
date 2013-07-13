@@ -34,7 +34,7 @@ public:
     /**
      * allocate a event object and copy src content in
      */
-    virtual InternalEvent* copyEvent(long seq, Event* srcEvent) = 0;
+    virtual InternalEvent* copyEvent(long64 seq, Event* srcEvent) = 0;
 
     /**
      * release a event object back to the pool
@@ -53,7 +53,7 @@ public:
  */
 class InternalEvent : public Event {
 public:
-    InternalEvent(AbstractEventPool* eventPool, long long eid, long seq, Event* srcEvent) :
+    InternalEvent(AbstractEventPool* eventPool, long long eid, long64 seq, Event* srcEvent) :
       pool_(eventPool),
       refCount_(0), 
       eid_(eid),
@@ -74,7 +74,7 @@ public:
             delete pPayload_;
     }
 
-    void update(long long eid, long seq, Event* srcEvent) {
+    void update(long long eid, long64 seq, Event* srcEvent) {
         eid_ = eid;
         seq_ = seq;
         ts_ = srcEvent->getTimestamp();
@@ -121,7 +121,7 @@ private:
     AbstractEventPool*   pool_;   // the event pool
     int refCount_;        // free back to event pool upon decref to 0
     long long eid_;       // unique id within a event pool
-    long seq_;            // event sequence number, same as the corresponding input event sequence   
+    long64 seq_;          // event sequence number, same as the corresponding input event sequence   
 
     Document* pPayload_;   // event payload
     int64_t ts_;          // event timestamp
@@ -167,7 +167,7 @@ public:
      * @param seq  source event sequence
      * @param srcEvent the source event object pointer
      */
-    virtual InternalEvent* copyEvent(long seq, Event* srcEvent) {
+    virtual InternalEvent* copyEvent(long64 seq, Event* srcEvent) {
         nextId_++;
         InternalEvent* theCopy;
         if (freeEvents_.empty()) {

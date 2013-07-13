@@ -14,7 +14,7 @@ void RbSourceStream::SubscriberHandler::onAvailable(EventBufferEntry & entry) {
     // TODO : need to prevent multiple subscribers from executing the query concurrently
     static const long TRACE_EVENT_NUM = 1000000;
 
-    long seq  = entry.getSequence();
+    long64 seq  = entry.getSequence();
     // exploit a hardcoded roundrobin partition strategy
     if (nParallelism_ > 1) {        
         if ((seq/10) % nParallelism_ != index_)
@@ -65,7 +65,7 @@ void RbSourceStream::CompositeSubscriberHandler::onAvailable(EventBufferEntry & 
     // TODO : need to prevent multiple subscribers from executing the query concurrently
     static const long TRACE_EVENT_NUM = 1000000;
 
-    long seq  = entry.getSequence();
+    long64 seq  = entry.getSequence();
 
     SourceStreamOperatorGroup* theGroup = pInvokePoints_->getGroup(entry.streamIdx_);
     int operatorsNum = (int) theGroup->operators.size();

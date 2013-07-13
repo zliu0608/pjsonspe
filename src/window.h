@@ -120,7 +120,7 @@ public:
     }
 
     // @override
-    virtual void execute(long seq, Event* pevent) {
+    virtual void execute(long64 seq, Event* pevent) {
         // pass through control events
         if (!(pevent->isDataOrSyncEvent())) {
             if (pNextOperator_) {
