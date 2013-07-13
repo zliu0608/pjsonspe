@@ -1,7 +1,7 @@
 #include "tokendef.h"
 #include "reduce.h"
 
-PartialAggregationBag* PartialAggregationBagManager::openBag(long seq) {
+PartialAggregationBag* PartialAggregationBagManager::openBag(long64 seq) {
     if (openBag_)
         return NULL;
     else {
