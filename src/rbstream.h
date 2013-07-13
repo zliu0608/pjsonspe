@@ -33,7 +33,7 @@ public:
             doWatch(entry.getSequence());
         }
 
-        virtual void doWatch(long64 sequence) = 0;
+        virtual void doWatch(long sequence) = 0;
 
         virtual void onEndOfBatch() {
             // do nothing for now.
@@ -222,37 +222,6 @@ public:
     /**
      * publish one batch of event with system time
      *
-     * @param streamId the id of source stream where events should be published through
-     * @param events the array of string event
-     * @param num size of the batch
-     * @return the number of events being published on success, 
-     *         on fail, a negative error code will be returned
-     */
-    int publish(int streamId, char** events, int num ) {
-        if ( running_ && producerInitialized_) {
-            SequenceBatch sequenceBatch(num);
-            SequenceBatch returnedBatch = producer_->nextEntries(sequenceBatch);
-            EventBufferEntry* entry;
-            char* stringEvent;
-            int index = 0;
-            for (long64 i = returnedBatch.getStart(), end = returnedBatch.getEnd(); i <= end; i++) {
-                entry = producer_->getEntry(i);
-                stringEvent = events[index];
-                entry->streamIdx_ = streamId;
-                index++;
-                *(entry->jsonText_) = stringEvent;
-            }
-            producer_->commit(returnedBatch);
-            return returnedBatch.getSize();
-        }
-        else {
-            return -1;
-        }
-    }
-
-    /**
-     * publish one batch of event with system time
-     *
      * @param events the array of string event
      * @param num size of the batch
      * @return the number of events being published on success, 
@@ -265,7 +234,7 @@ public:
             EventBufferEntry* entry;
             char* stringEvent;
             int index = 0;
-            for (long64 i = returnedBatch.getStart(), end = returnedBatch.getEnd(); i <= end; i++) {
+            for (long i = returnedBatch.getStart(), end = returnedBatch.getEnd(); i <= end; i++) {
                 entry = producer_->getEntry(i);
                 stringEvent = events[index];
                 index++;
@@ -360,7 +329,7 @@ private:
         int index_;
         int nParallelism_;
 
-        long64 num_;         // for performance tracing purpose.
+        long num_;         // for performance tracing purpose.
         clock_t t1_;
         clock_t t2_;
     };
@@ -390,7 +359,7 @@ private:
         int index_;
         int nParallelism_;
 
-        long64 num_;         // for performance tracing purpose.
+        long num_;         // for performance tracing purpose.
         clock_t t1_;
         clock_t t2_;
 

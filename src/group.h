@@ -3,7 +3,7 @@
 
 #include <string>
 #include <map>
-#include "common.h"
+
 #include "groupcontext.h"
 
 using namespace std;
@@ -217,7 +217,7 @@ public:
     }
 
     // @override
-    virtual void execute(long64 seq, Event* pevent) {
+    virtual void execute(long seq, Event* pevent) {
         if (pevent->isFlushEvent()) {
             flushOutputs(seq, pevent);
             return;
@@ -294,7 +294,7 @@ private:
      * @param seq driving event sequence
      * @param pevent driving event
      */
-    void flushOutputs(long64 seq, Event* pevent) {
+    void flushOutputs(long seq, Event* pevent) {
         IntermediateEvent theOutEvent;
         for (TempResultMap::iterator iter = tempResultMap_.begin(); iter != tempResultMap_.end();) {
             // output MINUS event first

@@ -6,7 +6,7 @@
 //#define sleep(A)  Sleep(1000 * A) 
 #else
 #endif
-#include "common.h"
+
 #include <time.h>
 #include <vector>
 #include <exception>
@@ -37,7 +37,7 @@ int ceilingNextPowerOfTwo(const int & x);
  * @param consumers to be checked
  * @return the minimum sequence found or Long.MAX_VALUE if the array is empty.
  */
-long64 getMinimumSequence(const vector<Consumer*> & consumers);
+long getMinimumSequence(const vector<Consumer*> & consumers);
 
 
 /**
@@ -46,16 +46,16 @@ long64 getMinimumSequence(const vector<Consumer*> & consumers);
  */
 class AbstractEntry {
 public:
-    virtual const long64 getSequence() const {
+    virtual const long getSequence() const {
         return sequence_;
     }
 
-    void setSequence(long64 sequence) {
+    void setSequence(long sequence) {
         sequence_ = sequence;
     }
 
 private:
-    long64 sequence_;          // sequence number stored in the entry
+    long sequence_;          // sequence number stored in the entry
 };
 
 
@@ -78,34 +78,34 @@ public:
      *
      * return Entry index which can be used by producer
      */
-    virtual long64 incrementAndGet() = 0;
+    virtual long incrementAndGet() = 0;
 
 
     /**
      * Claim by a delta
      */
-    virtual long64 incrementAndGet(const int & delta) = 0;
+    virtual long incrementAndGet(const int & delta) = 0;
 
 
-    static ClaimStrategy* newInstance(ClaimStrategyOptions::Option option, long64 intialSequence);
+    static ClaimStrategy* newInstance(ClaimStrategyOptions::Option option, long intialSequence);
 };
 
 
 class SingleThreadedClaimStrategy : public ClaimStrategy {
 public:
-    SingleThreadedClaimStrategy(long64 sequence) : sequence_(sequence) {
+    SingleThreadedClaimStrategy(long sequence) : sequence_(sequence) {
     }
 
-    virtual long64 incrementAndGet() {
+    virtual long incrementAndGet() {
         return ++sequence_;
     }
 
-    virtual long64 incrementAndGet(const int & delta) {
+    virtual long incrementAndGet(const int & delta) {
         sequence_ += delta;
         return sequence_;
     }
 private:
-    long64 sequence_;
+    long sequence_;
 };
 
 
@@ -136,10 +136,10 @@ public:
      * @return the sequence that is available which may be greater than the requested sequence
      * @throws InterruptedException if the thread is interrupted.
      */
-    virtual long64 waitFor(const std::vector<Consumer*> & consumers,
+    virtual long waitFor(const std::vector<Consumer*> & consumers,
                          RingBuffer<Entry> & ringBuffer,
                          ConsumerBarrier<Entry> & barrier,
-                         const long64 & sequence)  = 0;
+                         const long & sequence)  = 0;
 
 
     /**
@@ -153,10 +153,10 @@ public:
      * @return the sequence that is available which may be greater than the requested sequence
      * @throws InterruptedException if the thread is interrupted.
      */
-    virtual long64 waitFor(const std::vector<Consumer*> & consumers,
+    virtual long waitFor(const std::vector<Consumer*> & consumers,
                          RingBuffer<Entry> & ringBuffer,
                          ConsumerBarrier<Entry> & barrier,
-                         const long64 & sequence, 
+                         const long & sequence, 
                          const long & timeout_micros)  = 0;
 
     /**
@@ -193,11 +193,11 @@ private:
     class YieldingWaitStrategy : public WaitStrategy<Entry> {
     public:
         //@Override
-        virtual long64 waitFor(const std::vector<Consumer*> & consumers,
+        virtual long waitFor(const std::vector<Consumer*> & consumers,
                          RingBuffer<Entry> & ringBuffer,
                          ConsumerBarrier<Entry> & barrier,
-                         const long64 & sequence) {                       
-            long64 availableSequence = 0;
+                         const long & sequence) {                       
+            long availableSequence = 0;
             if (0 == consumers.size()) {
                 while ((availableSequence = ringBuffer.getCursor()) < sequence) {
 #ifdef _WIN32
@@ -230,12 +230,12 @@ private:
         };
 
         //@Override
-        virtual long64 waitFor(const std::vector<Consumer*> & consumers,
+        virtual long waitFor(const std::vector<Consumer*> & consumers,
                          RingBuffer<Entry> & ringBuffer,
                          ConsumerBarrier<Entry> & barrier,
-                         const long64 & sequence, 
+                         const long & sequence, 
                          const long & timeout_micros) {
-            long64 availableSequence = 0;
+            long availableSequence = 0;
             clock_t t1, t2;
             t1 = clock();
             t2 = t1;
@@ -305,11 +305,11 @@ public:
       size_(size), end_(RINGBUFFER_INITIAL_CURSOR_VALUE) {
     }
 
-    long64 getEnd() {
+    long getEnd() {
         return end_;
     }
 
-    void setEnd(const long64 & end) {
+    void setEnd(const long & end) {
         end_ = end;
     }
 
@@ -317,11 +317,11 @@ public:
         return size_;
     }
 
-    long64 getStart() {
+    long getStart() {
         return end_ - (size_ - 1L);
     }
 private:
-    long64 end_;
+    long end_;
     const int size_;
 };
 
@@ -365,12 +365,12 @@ public:
     /**
      * Get a entry given 
      */
-    virtual Entry* getEntry(const long64 & sequence) = 0;
+    virtual Entry* getEntry(const long & sequence) = 0;
 
     /**
      * Delegate the call to RingBuffer and get its cursor value
      */
-    virtual long64 getCursor() = 0;
+    virtual long getCursor() = 0;
 };
 
 
@@ -386,24 +386,24 @@ public:
      *
      * @return the sequence up to which is available
      */
-    virtual long64 waitFor(const long64 & sequence) = 0;
+    virtual long waitFor(const long & sequence) = 0;
 
     /**
      * Wait for a given sequence to be available for consumption until timeout
      *
      * @return the sequence up to which is available
      */
-    virtual long64 waitFor(const long64 & sequence, const long & timeout_micros) = 0;
+    virtual long waitFor(const long & sequence, const long & timeout_micros) = 0;
 
     /**
      * Get a entry given 
      */
-    virtual Entry * getEntry(const long64 & sequence) = 0;
+    virtual Entry * getEntry(const long & sequence) = 0;
 
     /**
      * Delegate the call to RingBuffer and get its cursor value
      */
-    virtual long64 getCursor() = 0;
+    virtual long getCursor() = 0;
 };
 
 
@@ -432,7 +432,7 @@ public:
 
     //@Override
     virtual Entry* nextEntry() {
-        const long64 sequence = parent_->claimStrategy_.incrementAndGet();
+        const long sequence = parent_->claimStrategy_.incrementAndGet();
         // wait in this method
         ensureConsumersAreInRange(sequence);
 
@@ -448,13 +448,13 @@ public:
     
     // @Override
     virtual SequenceBatch nextEntries(SequenceBatch sequenceBatch) {
-        const long64 sequence = parent_->claimStrategy_.incrementAndGet(sequenceBatch.getSize());
+        const long sequence = parent_->claimStrategy_.incrementAndGet(sequenceBatch.getSize());
         sequenceBatch.setEnd(sequence);
 
         // wait in this method
         ensureConsumersAreInRange(sequence);
         Entry * entry;
-        for (long64 i = sequenceBatch.getStart(), end = sequenceBatch.getEnd(); i <= end; i++) {
+        for (long i = sequenceBatch.getStart(), end = sequenceBatch.getEnd(); i <= end; i++) {
             entry = &(parent_->entries_[(int)i & parent_->ringModMask_]);
             entry->setSequence(i);            
         }
@@ -467,18 +467,18 @@ public:
     }
 
     //@Override
-    virtual Entry * getEntry(const long64 & sequence) {
+    virtual Entry * getEntry(const long & sequence) {
         return &(parent_->entries_[(int)sequence & parent_->ringModMask_]);
     }
 
     //Override
-    virtual long64 getCursor() {
+    virtual long getCursor() {
         return parent_->cursor_;
     }
 
 protected:
-    void ensureConsumersAreInRange(const long64 & sequence) {
-        const long64 wrapPoint = sequence - (long64) parent_->entries_.size();
+    void ensureConsumersAreInRange(const long & sequence) {
+        const long wrapPoint = sequence - (long) parent_->entries_.size();
         
 #ifdef _TRACK_WAIT_TIMES
         clock_t t1, t2;
@@ -522,9 +522,9 @@ protected:
 #endif
     }
 
-    void commit(const long64 & sequence, const long & batchSize){
+    void commit(const long & sequence, const long & batchSize){
         if (ClaimStrategyOptions::MULTI_THREADED == parent_->claimStrategyOption_) {
-            const long64 expectedSequence = sequence - batchSize;
+            const long expectedSequence = sequence - batchSize;
             while (expectedSequence != parent_->cursor_) {
                 // busy spin until other producers commit
             }
@@ -537,7 +537,7 @@ protected:
 private:
     vector<Consumer*> consumers_;
     RingBuffer<Entry> * parent_;
-    long64 lastConsumerMinimum_;
+    long lastConsumerMinimum_;
 };
 
 
@@ -551,22 +551,22 @@ public:
         : parent_(parent), consumers_(consumers) {
     }
 
-    virtual long64 waitFor(const long64 & sequence) {
+    virtual long waitFor(const long & sequence) {
         return parent_->waitStrategy_.waitFor(consumers_, *parent_, *this, sequence);
     }
 
-    virtual long64 waitFor(const long64 & sequence, const long & timeout_micros) {
+    virtual long waitFor(const long & sequence, const long & timeout_micros) {
         return parent_->waitStrategy_.waitFor(consumers_, *parent_, *this, sequence, timeout_micros);
     }
 
 
     //@Override
-    virtual Entry * getEntry(const long64 & sequence) {
+    virtual Entry * getEntry(const long & sequence) {
         return &(parent_->entries_[(int)sequence & parent_->ringModMask_]);
     }
 
         //Override
-    virtual long64 getCursor() {
+    virtual long getCursor() {
         return parent_->cursor_;
     }
 
@@ -586,7 +586,7 @@ public:
      *
      * @return the sequence of the last consumed entry
      */
-    virtual long64 getSequence() const = 0;
+    virtual long getSequence() const = 0;
 
     /**
      * Signal that this Consumer should stop when it has finished consuming at the next clean break.
@@ -638,11 +638,11 @@ private:
     ConsumerBarrier<Entry> * consumerBarrier_;
     BatchHandler<Entry>    * handler_;
 
-    long64 p1, p2, p3, p4, p5, p6, p7;  // cache line padding
+    long p1, p2, p3, p4, p5, p6, p7;  // cache line padding
     volatile bool running_;
-    long64 p8, p9, p10, p11, p12, p13, p14; // cache line padding
-    volatile long64 sequence_;
-    long64 p15, p16, p17, p18, p19, p20; // cache line padding
+    long p8, p9, p10, p11, p12, p13, p14; // cache line padding
+    volatile long sequence_;
+    long p15, p16, p17, p18, p19, p20; // cache line padding
 public:
     /**
     * Construct a batch consumer that will automatically track the progress by updating its sequence when
@@ -659,7 +659,7 @@ public:
     }
 
     //@Override
-    virtual long64 getSequence() const {
+    virtual long getSequence() const {
         return sequence_;
     }
 
@@ -680,11 +680,11 @@ public:
 
     //Override
     virtual void run() {
-        long64 nextSequence = sequence_ + 1 ;
+        long nextSequence = sequence_ + 1 ;
         Entry * entry;
         while (running_) {
             try {
-                long64 availableSequence = consumerBarrier_->waitFor(nextSequence, 300);  // locally cached write position
+                long availableSequence = consumerBarrier_->waitFor(nextSequence, 300);  // locally cached write position
                 if (availableSequence < nextSequence) {
                     Sleep(1);
                     continue;  // timeout occured
@@ -720,7 +720,7 @@ class RingBuffer {
     friend class ConsumerTrackingProducerBarrier<Entry>;
 private:
     long int _p1_, _p2_, _p3_, _p4_, _p5_, _p6_, _p7_; // cache line padding
-    volatile long64 cursor_;
+    volatile long int cursor_;
     long int _p8_, _p9_, _p10_, _p11_, _p12_, _p13_, _p14_; // cache line padding
 
     std::vector<Entry> entries_;
@@ -792,7 +792,7 @@ public:
      *
      * @return the position
      */
-    long64 getCursor() {
+    long getCursor() {
         return cursor_;
     }
 
@@ -801,7 +801,7 @@ public:
      *
      * @return the Entry
      */
-    virtual Entry & getEntry(const long64 & sequence) {
+    virtual Entry & getEntry(const long & sequence) {
         return entries_[(int)sequence & ringModMask_];
     }
 };

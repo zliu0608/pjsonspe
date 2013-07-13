@@ -112,7 +112,7 @@ public:
         pNextOperator_ = pNextOp;
     }
 
-    virtual void execute(long64 seq, Event* pevent) = 0;
+    virtual void execute(long seq, Event* pevent) = 0;
 
     virtual void completeBatch() {};
 
@@ -187,7 +187,7 @@ public:
     }
 
     // @override
-    virtual void execute(long64 seq, Event* pevent) {
+    virtual void execute(long seq, Event* pevent) {
         // pass through control events
         if (!(pevent->isDataEvent())) {
             for (vector<OperatorPipeline*>::const_iterator iter=toPipelines_.begin(); iter<toPipelines_.end(); iter++) {
@@ -349,7 +349,7 @@ public:
         return strValue_ ;
     }
 
-    virtual void execute(long64 seq, Event* pevent) {
+    virtual void execute(long seq, Event* pevent) {
         // pass through control events
         if (!(pevent->isDataEvent())) {
             if (pNextOperator_) {
@@ -456,7 +456,7 @@ public :
         return strValue_;
     }
 
-    virtual void execute(long64 seq, Event* pevent) {
+    virtual void execute(long seq, Event* pevent) {
         // pass through control events
         if (!(pevent->isDataEvent())) {
             if (pNextOperator_) {
@@ -516,7 +516,7 @@ public:
         return strValue_;
     }
 
-    virtual void execute(long64 seq, Event* pevent) {
+    virtual void execute(long seq, Event* pevent) {
         // pass through control events
         if (!(pevent->isDataEvent())) {
             if (pNextOperator_) {
@@ -777,7 +777,7 @@ public:
     void execute() {
         StreamOperator* pSource;
         Event* pEvent;
-        long64 seq = 0;
+        long seq = 0;
         while (true) {
             pSource = getAvailableSource();
             if (pSource) 
@@ -810,7 +810,7 @@ private:
     vector<OperatorPipeline*> *pPipelineList_;
     vector<StreamOperator*> *pSourceList_;
     vector<StreamOperator*> *pOuputStreamList_;
-    long64 seq_;
+    long seq_;
 
     ExecutorContext executorCtx_;
 
@@ -968,7 +968,7 @@ public:
         }
     }
 
-    long64 getSequence() {
+    long getSequence() {
         return seq_;
     }
 };
@@ -1193,7 +1193,7 @@ private:
     
 
     // @override,  reap result events in this method
-    virtual void doWatch(long64 sequence) {
+    virtual void doWatch(long sequence) {
         typedef vector<EventSinkEntry*> EventBatch;
         vector<EventBatch> availableEventBatches;
         vector<int> eventNums;
@@ -1213,9 +1213,9 @@ private:
 
         while (! availableEventBatches.empty() ) {
             vector<EventBatch>::iterator minimal_iter = availableEventBatches.begin();
-            long64 minimal_seq = minimal_iter->front()->getSequence();
+            long minimal_seq = minimal_iter->front()->getSequence();
             vector<EventBatch>::iterator iter = minimal_iter + 1;
-            long64 seq1;
+            long seq1;
             for (; iter < availableEventBatches.end(); iter++) {
                 seq1 = iter->front()->getSequence();
                 if ( seq1 < minimal_seq) {
@@ -1384,19 +1384,6 @@ public:
      */
     int publishEvent(int streamId, char* stringEvent) {
         return theRBStream_->publish(streamId, stringEvent);
-    }
-
-    /**
-     * publish one batch if events with system time on to the specified stream
-     *
-     * @param streamId the id of stream where events should be published on to
-     * @param events the array of the events payloads
-     * @param num the batch size
-     * @return the number of event being published on success, 
-     *         on fail, a negative error code will be returned
-     */
-    int publishEvent(int streamId, char** events, int num) {
-        return theRBStream_->publish(streamId, events, num);
     }
 };
 

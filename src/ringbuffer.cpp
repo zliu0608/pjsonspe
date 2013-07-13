@@ -16,19 +16,19 @@ int ceilingNextPowerOfTwo(const int & y) {
 }
 
 
-long64 getMinimumSequence(const vector<Consumer*> & consumers) {
-    long64 minimum = LLONG_MAX;
+long getMinimumSequence(const vector<Consumer*> & consumers) {
+    long minimum = LONG_MAX;
     for (std::vector<Consumer*>::const_iterator itr = consumers.begin();
         itr < consumers.end();
         ++itr) {
-        long64 sequence = (*itr)->getSequence();
+        long sequence = (*itr)->getSequence();
         minimum = minimum < sequence ? minimum : sequence;
     }  
   return minimum;    
 }
 
 
-ClaimStrategy* ClaimStrategy::newInstance(const ClaimStrategyOptions::Option option, long64 initialSequence) {
+ClaimStrategy* ClaimStrategy::newInstance(const ClaimStrategyOptions::Option option, long initialSequence) {
     if (ClaimStrategyOptions::SINGLE_THREADED == option) {
         return new SingleThreadedClaimStrategy(initialSequence);
     }

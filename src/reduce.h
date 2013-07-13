@@ -13,7 +13,7 @@ using namespace std;
 
 class PartialAggregationBag {
 public:    
-    long64 seq_;
+    long seq_;
     int64_t ts_;
     deque<Event*> events_;
     InternalEventPool* pool_;
@@ -68,7 +68,7 @@ public:
      *
      * @return the new bag on success,  NULL on failure which is usually because another bag is still in open state
      */
-    PartialAggregationBag* openBag(long64 seq);
+    PartialAggregationBag* openBag(long seq);
 
     /**
      * close current bag, add it into readyBags list, also update the readySeq
@@ -99,7 +99,7 @@ private:
     int index_;                                // the index among all bag managers inside a reducer
     AggregationReducer* reducer_;              // point to its containing reducer
 
-    long64 readySeq_;                          // bags equal or prior to this sequnce number are ready to reduce
+    long readySeq_;                            // bags equal or prior to this sequnce number are ready to reduce
     list<PartialAggregationBag*> readyBags_;   // the ready bags store    
     PartialAggregationBag* openBag_;           // the bag which is still open to receive more events, no need lock to protect this member as only one thread access it
 };
@@ -222,7 +222,7 @@ private:
         bool completed = readyBagNumInReduceBatch_ == parallelism_ &&
                          readyBagNumInReduceBatch_ == nextReduceBagIndex_;
         
-        long64 theSeq = bagsInReduceBatch_[0]->seq_;
+        long theSeq = bagsInReduceBatch_[0]->seq_;
         int64_t ts = bagsInReduceBatch_[0]->ts_;
 
         // post processing on completion
@@ -247,7 +247,7 @@ private:
    
     void reduceOneBag(PartialAggregationBag* aBag) {
         Event* theEvent;
-        long64 theSeq = aBag->seq_;
+        long theSeq = aBag->seq_;
         while (! aBag->events_.empty()) {
             theEvent = aBag->events_.front();
             groupOperator_->execute(theSeq, theEvent);
@@ -378,7 +378,7 @@ public:
     }
 
     // @override
-    virtual void execute(long64 seq, Event* pevent) {
+    virtual void execute(long seq, Event* pevent) {
         if ( pevent->isDataEvent() ) {
 
 #ifdef _DEBUG

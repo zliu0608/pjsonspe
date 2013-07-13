@@ -59,7 +59,7 @@ public:
      * @param ts   the timestamp
      * @param type event type, optional, default is a plus event
      */
-    void storeEvent(long64 seq, const string& str, int64_t ts, Event::EventType type = Event::TYPE_PLUS ) {
+    void storeEvent(long seq, const string& str, int64_t ts, Event::EventType type = Event::TYPE_PLUS ) {
         mutex_.lock();
         EventSinkEntry* pEntry;
         if (!freeList_.empty()) {
@@ -87,7 +87,7 @@ public:
      * @param events the available events to be returned
      * @return the number of events being returned
      */
-    int getAvailableEvents(long64 seq, vector<EventSinkEntry*> & events) {
+    int getAvailableEvents(long seq, vector<EventSinkEntry*> & events) {
         events.clear();
         mutex_.lock();
         for (deque<EventSinkEntry*>::const_iterator iter = queue_.begin(); iter< queue_.end(); iter++) {
