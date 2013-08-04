@@ -227,14 +227,15 @@ public:
     /**
      * serialize event payload (json) into a string
      *
-     * @param evt  event to be serialized
+     * @param payload  pointer to a JSON Value object to be serialized
      * @param prettyFormat true to serialze with proper indentation and spaces
      * @return string contains the serialization result
      */
-    const std::string& serialize(Event& evt, bool prettyFormat = false) {
+    const std::string& serialize(Value* payload, bool prettyFormat = false) {
         Reset();
+        if (payload == NULL)
+            return s_;
 
-        Value* payload = evt.getPayload();
         // handle non-object/non-array value too.
         switch(payload->GetType()) {
         case kNullType:
@@ -277,14 +278,18 @@ public:
             break;
         }// end switch    
         return s_;
+    }
 
-        if (prettyFormat) {
-            evt.getPayload()->Accept(*prettyWriter_);
-        }
-        else {
-            evt.getPayload()->Accept(*plainWriter_);
-        }
-        return s_;
+    /**
+     * serialize event payload (json) into a string
+     *
+     * @param evt  event to be serialized
+     * @param prettyFormat true to serialze with proper indentation and spaces
+     * @return string contains the serialization result
+     */
+    const std::string& serialize(Event& evt, bool prettyFormat = false) {
+        Value* payload = evt.getPayload();
+        return serialize(payload);
     }
 
     /**

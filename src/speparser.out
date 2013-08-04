@@ -15,6 +15,9 @@ State 0:
           command ::= * group_cmd
           command ::= * reduce_cmd
           stream_cmd ::= * SSTREAM DQ_STRING
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA SHUFFLE
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA ALL
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA expr
           stream_cmd ::= * OSTREAM DQ_STRING
           filter_cmd ::= * FILTER expr
           transform_cmd ::= * TRANSFORM expr
@@ -25,25 +28,25 @@ State 0:
           reduce_cmd ::= * REDUCE INTO expr
           reduce_cmd ::= * REDUCE BY group_exprs INTO expr
 
-                            ID shift  71
-                       SSTREAM shift  99
-                       OSTREAM shift  98
-                        FILTER shift  36
-                     TRANSFORM shift  15
-                     WINDOW_KW shift  92
-                         GROUP shift  75
-                        REDUCE shift  73
-                      commands shift  100
-                       command shift  103
-                    stream_cmd shift  153
-                    filter_cmd shift  152
-                 transform_cmd shift  151
-      sliding_count_window_cmd shift  150
-                     group_cmd shift  149
-                    reduce_cmd shift  148
+                            ID shift  73
+                       SSTREAM shift  102
+                       OSTREAM shift  95
+                        FILTER shift  17
+                     TRANSFORM shift  16
+                     WINDOW_KW shift  94
+                         GROUP shift  77
+                        REDUCE shift  75
+                      commands shift  103
+                       command shift  106
+                    stream_cmd shift  157
+                    filter_cmd shift  156
+                 transform_cmd shift  155
+      sliding_count_window_cmd shift  154
+                     group_cmd shift  153
+                    reduce_cmd shift  152
                           main accept
                            epn shift  1
-                          stmt shift  82
+                          stmt shift  84
 
 State 1:
       (0) main ::= epn *
@@ -61,6 +64,9 @@ State 1:
           command ::= * group_cmd
           command ::= * reduce_cmd
           stream_cmd ::= * SSTREAM DQ_STRING
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA SHUFFLE
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA ALL
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA expr
           stream_cmd ::= * OSTREAM DQ_STRING
           filter_cmd ::= * FILTER expr
           transform_cmd ::= * TRANSFORM expr
@@ -72,23 +78,23 @@ State 1:
           reduce_cmd ::= * REDUCE BY group_exprs INTO expr
 
                              $ reduce 0
-                            ID shift  71
-                       SSTREAM shift  99
-                       OSTREAM shift  98
-                        FILTER shift  36
-                     TRANSFORM shift  15
-                     WINDOW_KW shift  92
-                         GROUP shift  75
-                        REDUCE shift  73
-                      commands shift  100
-                       command shift  103
-                    stream_cmd shift  153
-                    filter_cmd shift  152
-                 transform_cmd shift  151
-      sliding_count_window_cmd shift  150
-                     group_cmd shift  149
-                    reduce_cmd shift  148
-                          stmt shift  101
+                            ID shift  73
+                       SSTREAM shift  102
+                       OSTREAM shift  95
+                        FILTER shift  17
+                     TRANSFORM shift  16
+                     WINDOW_KW shift  94
+                         GROUP shift  77
+                        REDUCE shift  75
+                      commands shift  103
+                       command shift  106
+                    stream_cmd shift  157
+                    filter_cmd shift  156
+                 transform_cmd shift  155
+      sliding_count_window_cmd shift  154
+                     group_cmd shift  153
+                    reduce_cmd shift  152
+                          stmt shift  104
 
 State 2:
           reduce_cmd ::= REDUCE BY * group_exprs INTO expr
@@ -139,27 +145,27 @@ State 2:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                    group_expr shift  104
-                   group_exprs shift  72
-                          expr shift  48
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                    group_expr shift  107
+                   group_exprs shift  74
+                          expr shift  49
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
 State 3:
           group_cmd ::= GROUP BY * group_exprs INTO expr
@@ -210,27 +216,27 @@ State 3:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                    group_expr shift  104
-                   group_exprs shift  74
-                          expr shift  48
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                    group_expr shift  107
+                   group_exprs shift  76
+                          expr shift  49
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
 State 4:
           stmt ::= ID EQ * commands
@@ -244,6 +250,9 @@ State 4:
           command ::= * group_cmd
           command ::= * reduce_cmd
           stream_cmd ::= * SSTREAM DQ_STRING
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA SHUFFLE
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA ALL
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA expr
           stream_cmd ::= * OSTREAM DQ_STRING
           filter_cmd ::= * FILTER expr
           transform_cmd ::= * TRANSFORM expr
@@ -254,22 +263,22 @@ State 4:
           reduce_cmd ::= * REDUCE INTO expr
           reduce_cmd ::= * REDUCE BY group_exprs INTO expr
 
-                            ID shift  84
-                       SSTREAM shift  99
-                       OSTREAM shift  98
-                        FILTER shift  36
-                     TRANSFORM shift  15
-                     WINDOW_KW shift  92
-                         GROUP shift  75
-                        REDUCE shift  73
-                      commands shift  85
-                       command shift  103
-                    stream_cmd shift  153
-                    filter_cmd shift  152
-                 transform_cmd shift  151
-      sliding_count_window_cmd shift  150
-                     group_cmd shift  149
-                    reduce_cmd shift  148
+                            ID shift  86
+                       SSTREAM shift  102
+                       OSTREAM shift  95
+                        FILTER shift  17
+                     TRANSFORM shift  16
+                     WINDOW_KW shift  94
+                         GROUP shift  77
+                        REDUCE shift  75
+                      commands shift  87
+                       command shift  106
+                    stream_cmd shift  157
+                    filter_cmd shift  156
+                 transform_cmd shift  155
+      sliding_count_window_cmd shift  154
+                     group_cmd shift  153
+                    reduce_cmd shift  152
 
 State 5:
           stmt ::= ID EQ ID PIPE * commands
@@ -282,6 +291,9 @@ State 5:
           command ::= * group_cmd
           command ::= * reduce_cmd
           stream_cmd ::= * SSTREAM DQ_STRING
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA SHUFFLE
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA ALL
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA expr
           stream_cmd ::= * OSTREAM DQ_STRING
           filter_cmd ::= * FILTER expr
           transform_cmd ::= * TRANSFORM expr
@@ -292,21 +304,21 @@ State 5:
           reduce_cmd ::= * REDUCE INTO expr
           reduce_cmd ::= * REDUCE BY group_exprs INTO expr
 
-                       SSTREAM shift  99
-                       OSTREAM shift  98
-                        FILTER shift  36
-                     TRANSFORM shift  15
-                     WINDOW_KW shift  92
-                         GROUP shift  75
-                        REDUCE shift  73
-                      commands shift  83
-                       command shift  103
-                    stream_cmd shift  153
-                    filter_cmd shift  152
-                 transform_cmd shift  151
-      sliding_count_window_cmd shift  150
-                     group_cmd shift  149
-                    reduce_cmd shift  148
+                       SSTREAM shift  102
+                       OSTREAM shift  95
+                        FILTER shift  17
+                     TRANSFORM shift  16
+                     WINDOW_KW shift  94
+                         GROUP shift  77
+                        REDUCE shift  75
+                      commands shift  85
+                       command shift  106
+                    stream_cmd shift  157
+                    filter_cmd shift  156
+                 transform_cmd shift  155
+      sliding_count_window_cmd shift  154
+                     group_cmd shift  153
+                    reduce_cmd shift  152
 
 State 6:
           stmt ::= ID PIPE * commands
@@ -319,6 +331,9 @@ State 6:
           command ::= * group_cmd
           command ::= * reduce_cmd
           stream_cmd ::= * SSTREAM DQ_STRING
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA SHUFFLE
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA ALL
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA expr
           stream_cmd ::= * OSTREAM DQ_STRING
           filter_cmd ::= * FILTER expr
           transform_cmd ::= * TRANSFORM expr
@@ -329,21 +344,21 @@ State 6:
           reduce_cmd ::= * REDUCE INTO expr
           reduce_cmd ::= * REDUCE BY group_exprs INTO expr
 
-                       SSTREAM shift  99
-                       OSTREAM shift  98
-                        FILTER shift  36
-                     TRANSFORM shift  15
-                     WINDOW_KW shift  92
-                         GROUP shift  75
-                        REDUCE shift  73
-                      commands shift  86
-                       command shift  103
-                    stream_cmd shift  153
-                    filter_cmd shift  152
-                 transform_cmd shift  151
-      sliding_count_window_cmd shift  150
-                     group_cmd shift  149
-                    reduce_cmd shift  148
+                       SSTREAM shift  102
+                       OSTREAM shift  95
+                        FILTER shift  17
+                     TRANSFORM shift  16
+                     WINDOW_KW shift  94
+                         GROUP shift  77
+                        REDUCE shift  75
+                      commands shift  88
+                       command shift  106
+                    stream_cmd shift  157
+                    filter_cmd shift  156
+                 transform_cmd shift  155
+      sliding_count_window_cmd shift  154
+                     group_cmd shift  153
+                    reduce_cmd shift  152
 
 State 7:
           expr ::= * pri_expr
@@ -393,27 +408,27 @@ State 7:
           func_expr ::= * func_name exprs RP
           func_expr ::= func_name * exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                            RP shift  114
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                            RP shift  118
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  56
-                      pri_expr shift  145
-                         exprs shift  77
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  58
+                      pri_expr shift  149
+                         exprs shift  79
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
 State 8:
           expr ::= * pri_expr
@@ -463,27 +478,27 @@ State 8:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                           RSB shift  128
-                        DOLLAR shift  117
-                          expr shift  56
-                      pri_expr shift  145
-                         exprs shift  80
-                     path_expr shift  45
+                           RSB shift  132
+                        DOLLAR shift  121
+                          expr shift  58
+                      pri_expr shift  149
+                         exprs shift  82
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
 State 9:
           group_expr ::= * expr
@@ -532,26 +547,26 @@ State 9:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                    group_expr shift  105
-                          expr shift  48
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                    group_expr shift  108
+                          expr shift  49
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
 State 10:
           commands ::= commands PIPE * command
@@ -562,6 +577,9 @@ State 10:
           command ::= * group_cmd
           command ::= * reduce_cmd
           stream_cmd ::= * SSTREAM DQ_STRING
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA SHUFFLE
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA ALL
+          stream_cmd ::= * SSTREAM DQ_STRING COMMA expr
           stream_cmd ::= * OSTREAM DQ_STRING
           filter_cmd ::= * FILTER expr
           transform_cmd ::= * TRANSFORM expr
@@ -572,22 +590,91 @@ State 10:
           reduce_cmd ::= * REDUCE INTO expr
           reduce_cmd ::= * REDUCE BY group_exprs INTO expr
 
-                       SSTREAM shift  99
-                       OSTREAM shift  98
-                        FILTER shift  36
-                     TRANSFORM shift  15
-                     WINDOW_KW shift  92
-                         GROUP shift  75
-                        REDUCE shift  73
-                       command shift  154
-                    stream_cmd shift  153
-                    filter_cmd shift  152
-                 transform_cmd shift  151
-      sliding_count_window_cmd shift  150
-                     group_cmd shift  149
-                    reduce_cmd shift  148
+                       SSTREAM shift  102
+                       OSTREAM shift  95
+                        FILTER shift  17
+                     TRANSFORM shift  16
+                     WINDOW_KW shift  94
+                         GROUP shift  77
+                        REDUCE shift  75
+                       command shift  158
+                    stream_cmd shift  157
+                    filter_cmd shift  156
+                 transform_cmd shift  155
+      sliding_count_window_cmd shift  154
+                     group_cmd shift  153
+                    reduce_cmd shift  152
 
 State 11:
+          stream_cmd ::= SSTREAM DQ_STRING COMMA * SHUFFLE
+          stream_cmd ::= SSTREAM DQ_STRING COMMA * ALL
+          stream_cmd ::= SSTREAM DQ_STRING COMMA * expr
+          expr ::= * pri_expr
+          pri_expr ::= * LP pri_expr RP
+          pri_expr ::= * DQ_STRING
+          pri_expr ::= * SQ_STRING
+          pri_expr ::= * INT
+          pri_expr ::= * DOUBLE
+          pri_expr ::= * TRUE
+          pri_expr ::= * FALSE
+          pri_expr ::= * NUL
+          pri_expr ::= * expr ADD expr
+          pri_expr ::= * expr SUB expr
+          pri_expr ::= * expr MUL expr
+          pri_expr ::= * expr DIV expr
+          pri_expr ::= * expr MOD expr
+          pri_expr ::= * expr LT expr
+          pri_expr ::= * expr GT expr
+          pri_expr ::= * expr LE expr
+          pri_expr ::= * expr GE expr
+          pri_expr ::= * expr EQ expr
+          pri_expr ::= * expr NE expr
+          pri_expr ::= * expr OR expr
+          pri_expr ::= * expr AND expr
+          pri_expr ::= * NOT expr
+          pri_expr ::= * expr IN expr
+          expr ::= * record
+          record ::= * LCB RCB
+          record ::= * LCB fields RCB
+          expr ::= * LSB RSB
+          expr ::= * LSB exprs RSB
+          expr ::= * path_expr
+          path_expr ::= * LP path_expr RP
+          path_expr ::= * ID
+          path_expr ::= * DOLLAR
+          path_expr ::= * path_expr project_name
+          path_expr ::= * path_expr LCB project_names RCB
+          path_expr ::= * path_expr LCB MUL SUB project_names RCB
+          path_expr ::= * path_expr LSB expr RSB
+          path_expr ::= * path_expr LSB expr COLON expr RSB
+          expr ::= * func_expr
+          func_name ::= * ID LP
+          func_expr ::= * func_name RP
+          func_expr ::= * func_name exprs RP
+
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                       SHUFFLE shift  151
+                           ALL shift  150
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
+                           LSB shift  8
+                        DOLLAR shift  121
+                          expr shift  61
+                      pri_expr shift  149
+                     path_expr shift  46
+                     func_name shift  7
+                     func_expr shift  120
+                        record shift  136
+
+State 12:
           reduce_cmd ::= REDUCE BY group_exprs INTO * expr
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
@@ -632,27 +719,27 @@ State 11:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  50
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  51
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 12:
+State 13:
           reduce_cmd ::= REDUCE INTO * expr
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
@@ -697,27 +784,27 @@ State 12:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  51
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  52
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 13:
+State 14:
           group_cmd ::= GROUP BY group_exprs INTO * expr
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
@@ -762,27 +849,27 @@ State 13:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  52
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  53
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 14:
+State 15:
           group_cmd ::= GROUP INTO * expr
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
@@ -827,27 +914,27 @@ State 14:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  53
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  54
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 15:
+State 16:
           transform_cmd ::= TRANSFORM * expr
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
@@ -892,27 +979,92 @@ State 15:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  54
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  55
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 16:
+State 17:
+          filter_cmd ::= FILTER * expr
+          expr ::= * pri_expr
+          pri_expr ::= * LP pri_expr RP
+          pri_expr ::= * DQ_STRING
+          pri_expr ::= * SQ_STRING
+          pri_expr ::= * INT
+          pri_expr ::= * DOUBLE
+          pri_expr ::= * TRUE
+          pri_expr ::= * FALSE
+          pri_expr ::= * NUL
+          pri_expr ::= * expr ADD expr
+          pri_expr ::= * expr SUB expr
+          pri_expr ::= * expr MUL expr
+          pri_expr ::= * expr DIV expr
+          pri_expr ::= * expr MOD expr
+          pri_expr ::= * expr LT expr
+          pri_expr ::= * expr GT expr
+          pri_expr ::= * expr LE expr
+          pri_expr ::= * expr GE expr
+          pri_expr ::= * expr EQ expr
+          pri_expr ::= * expr NE expr
+          pri_expr ::= * expr OR expr
+          pri_expr ::= * expr AND expr
+          pri_expr ::= * NOT expr
+          pri_expr ::= * expr IN expr
+          expr ::= * record
+          record ::= * LCB RCB
+          record ::= * LCB fields RCB
+          expr ::= * LSB RSB
+          expr ::= * LSB exprs RSB
+          expr ::= * path_expr
+          path_expr ::= * LP path_expr RP
+          path_expr ::= * ID
+          path_expr ::= * DOLLAR
+          path_expr ::= * path_expr project_name
+          path_expr ::= * path_expr LCB project_names RCB
+          path_expr ::= * path_expr LCB MUL SUB project_names RCB
+          path_expr ::= * path_expr LSB expr RSB
+          path_expr ::= * path_expr LSB expr COLON expr RSB
+          expr ::= * func_expr
+          func_name ::= * ID LP
+          func_expr ::= * func_name RP
+          func_expr ::= * func_name exprs RP
+
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
+                           LSB shift  8
+                        DOLLAR shift  121
+                          expr shift  56
+                      pri_expr shift  149
+                     path_expr shift  46
+                     func_name shift  7
+                     func_expr shift  120
+                        record shift  136
+
+State 18:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -957,27 +1109,27 @@ State 16:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  49
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  50
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 17:
+State 19:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1023,27 +1175,27 @@ State 17:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  47
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  48
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 18:
+State 20:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1088,27 +1240,27 @@ State 18:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  55
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  57
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 19:
+State 21:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1153,27 +1305,27 @@ State 19:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  57
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  59
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 20:
+State 22:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1218,27 +1370,27 @@ State 20:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  133
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  137
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 21:
+State 23:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1283,27 +1435,27 @@ State 21:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  61
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  63
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 22:
+State 24:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1348,27 +1500,27 @@ State 22:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  62
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  64
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 23:
+State 25:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1413,27 +1565,27 @@ State 23:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  60
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  62
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 24:
+State 26:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1478,27 +1630,27 @@ State 24:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  63
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  65
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 25:
+State 27:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1543,27 +1695,27 @@ State 25:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  64
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  66
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 26:
+State 28:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1608,27 +1760,27 @@ State 26:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  65
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  67
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 27:
+State 29:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1673,27 +1825,27 @@ State 27:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  66
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  68
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 28:
+State 30:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1738,27 +1890,27 @@ State 28:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  67
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  69
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 29:
+State 31:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1803,27 +1955,27 @@ State 29:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  68
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  70
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 30:
+State 32:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1868,27 +2020,27 @@ State 30:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  134
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  138
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 31:
+State 33:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1933,27 +2085,27 @@ State 31:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  135
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  139
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 32:
+State 34:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -1998,27 +2150,27 @@ State 32:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  136
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  140
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 33:
+State 35:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -2063,27 +2215,27 @@ State 33:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  70
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  72
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 34:
+State 36:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= LP * pri_expr RP
@@ -2129,27 +2281,27 @@ State 34:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  58
-                      pri_expr shift  97
-                     path_expr shift  41
+                        DOLLAR shift  121
+                          expr shift  60
+                      pri_expr shift  100
+                     path_expr shift  42
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 35:
+State 37:
           expr ::= * pri_expr
           pri_expr ::= * LP pri_expr RP
           pri_expr ::= * DQ_STRING
@@ -2194,92 +2346,27 @@ State 35:
           func_expr ::= * func_name RP
           func_expr ::= * func_name exprs RP
 
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
+                           NOT shift  22
+                            ID shift  97
+                     DQ_STRING shift  147
+                            LP shift  36
+                           INT shift  145
+                     SQ_STRING shift  146
+                        DOUBLE shift  144
+                          TRUE shift  143
+                         FALSE shift  142
+                           NUL shift  141
+                           LCB shift  38
                            LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  69
-                      pri_expr shift  145
-                     path_expr shift  45
+                        DOLLAR shift  121
+                          expr shift  71
+                      pri_expr shift  149
+                     path_expr shift  46
                      func_name shift  7
-                     func_expr shift  116
-                        record shift  132
+                     func_expr shift  120
+                        record shift  136
 
-State 36:
-          filter_cmd ::= FILTER * expr
-          expr ::= * pri_expr
-          pri_expr ::= * LP pri_expr RP
-          pri_expr ::= * DQ_STRING
-          pri_expr ::= * SQ_STRING
-          pri_expr ::= * INT
-          pri_expr ::= * DOUBLE
-          pri_expr ::= * TRUE
-          pri_expr ::= * FALSE
-          pri_expr ::= * NUL
-          pri_expr ::= * expr ADD expr
-          pri_expr ::= * expr SUB expr
-          pri_expr ::= * expr MUL expr
-          pri_expr ::= * expr DIV expr
-          pri_expr ::= * expr MOD expr
-          pri_expr ::= * expr LT expr
-          pri_expr ::= * expr GT expr
-          pri_expr ::= * expr LE expr
-          pri_expr ::= * expr GE expr
-          pri_expr ::= * expr EQ expr
-          pri_expr ::= * expr NE expr
-          pri_expr ::= * expr OR expr
-          pri_expr ::= * expr AND expr
-          pri_expr ::= * NOT expr
-          pri_expr ::= * expr IN expr
-          expr ::= * record
-          record ::= * LCB RCB
-          record ::= * LCB fields RCB
-          expr ::= * LSB RSB
-          expr ::= * LSB exprs RSB
-          expr ::= * path_expr
-          path_expr ::= * LP path_expr RP
-          path_expr ::= * ID
-          path_expr ::= * DOLLAR
-          path_expr ::= * path_expr project_name
-          path_expr ::= * path_expr LCB project_names RCB
-          path_expr ::= * path_expr LCB MUL SUB project_names RCB
-          path_expr ::= * path_expr LSB expr RSB
-          path_expr ::= * path_expr LSB expr COLON expr RSB
-          expr ::= * func_expr
-          func_name ::= * ID LP
-          func_expr ::= * func_name RP
-          func_expr ::= * func_name exprs RP
-
-                           NOT shift  20
-                            ID shift  94
-                     DQ_STRING shift  143
-                            LP shift  34
-                           INT shift  141
-                     SQ_STRING shift  142
-                        DOUBLE shift  140
-                          TRUE shift  139
-                         FALSE shift  138
-                           NUL shift  137
-                           LCB shift  37
-                           LSB shift  8
-                        DOLLAR shift  117
-                          expr shift  59
-                      pri_expr shift  145
-                     path_expr shift  45
-                     func_name shift  7
-                     func_expr shift  116
-                        record shift  132
-
-State 37:
+State 38:
           record ::= LCB * RCB
           record ::= LCB * fields RCB
           fields ::= * field
@@ -2296,16 +2383,16 @@ State 37:
           path_expr ::= * path_expr LSB expr RSB
           path_expr ::= * path_expr LSB expr COLON expr RSB
 
-                            ID shift  93
-                            LP shift  44
-                           RCB shift  131
-                        DOLLAR shift  117
-                     path_expr shift  43
-                        fields shift  81
-                         field shift  109
-                    field_name shift  19
+                            ID shift  96
+                            LP shift  45
+                           RCB shift  135
+                        DOLLAR shift  121
+                     path_expr shift  44
+                        fields shift  83
+                         field shift  113
+                    field_name shift  21
 
-State 38:
+State 39:
           fields ::= fields COMMA * field
           field ::= * field_name expr
           field ::= * path_expr DOT_STAR
@@ -2319,53 +2406,37 @@ State 38:
           path_expr ::= * path_expr LSB expr RSB
           path_expr ::= * path_expr LSB expr COLON expr RSB
 
-                            ID shift  93
-                            LP shift  44
-                        DOLLAR shift  117
-                     path_expr shift  43
-                         field shift  129
-                    field_name shift  19
+                            ID shift  96
+                            LP shift  45
+                        DOLLAR shift  121
+                     path_expr shift  44
+                         field shift  133
+                    field_name shift  21
 
-State 39:
+State 40:
           project_name ::= * DOT ID
           path_expr ::= path_expr LCB * project_names RCB
           path_expr ::= path_expr LCB * MUL SUB project_names RCB
           project_names ::= * project_name
           project_names ::= * project_names COMMA project_name
 
-                           MUL shift  95
-                           DOT shift  96
-                  project_name shift  121
-                 project_names shift  79
+                           MUL shift  98
+                           DOT shift  99
+                  project_name shift  125
+                 project_names shift  81
 
-State 40:
+State 41:
           project_name ::= * DOT ID
           path_expr ::= path_expr LCB MUL SUB * project_names RCB
           project_names ::= * project_name
           project_names ::= * project_names COMMA project_name
 
-                           DOT shift  96
-                  project_name shift  121
-                 project_names shift  78
-
-State 41:
-     (65) expr ::= path_expr *
-          path_expr ::= LP path_expr * RP
-          path_expr ::= path_expr * project_name
-          project_name ::= * DOT ID
-          path_expr ::= path_expr * LCB project_names RCB
-          path_expr ::= path_expr * LCB MUL SUB project_names RCB
-          path_expr ::= path_expr * LSB expr RSB
-          path_expr ::= path_expr * LSB expr COLON expr RSB
-
-                            RP shift  111
-                           LCB shift  39
-                           LSB shift  17
-                           DOT shift  96
-                  project_name shift  126
-                     {default} reduce 65
+                           DOT shift  99
+                  project_name shift  125
+                 project_names shift  80
 
 State 42:
+     (68) expr ::= path_expr *
           path_expr ::= LP path_expr * RP
           path_expr ::= path_expr * project_name
           project_name ::= * DOT ID
@@ -2374,13 +2445,29 @@ State 42:
           path_expr ::= path_expr * LSB expr RSB
           path_expr ::= path_expr * LSB expr COLON expr RSB
 
-                            RP shift  111
-                           LCB shift  39
-                           LSB shift  17
-                           DOT shift  96
-                  project_name shift  126
+                            RP shift  115
+                           LCB shift  40
+                           LSB shift  19
+                           DOT shift  99
+                  project_name shift  130
+                     {default} reduce 68
 
 State 43:
+          path_expr ::= LP path_expr * RP
+          path_expr ::= path_expr * project_name
+          project_name ::= * DOT ID
+          path_expr ::= path_expr * LCB project_names RCB
+          path_expr ::= path_expr * LCB MUL SUB project_names RCB
+          path_expr ::= path_expr * LSB expr RSB
+          path_expr ::= path_expr * LSB expr COLON expr RSB
+
+                            RP shift  115
+                           LCB shift  40
+                           LSB shift  19
+                           DOT shift  99
+                  project_name shift  130
+
+State 44:
           field ::= path_expr * DOT_STAR
           path_expr ::= path_expr * project_name
           project_name ::= * DOT ID
@@ -2389,13 +2476,13 @@ State 43:
           path_expr ::= path_expr * LSB expr RSB
           path_expr ::= path_expr * LSB expr COLON expr RSB
 
-                           LCB shift  39
-                      DOT_STAR shift  113
-                           LSB shift  17
-                           DOT shift  96
-                  project_name shift  126
+                           LCB shift  40
+                      DOT_STAR shift  117
+                           LSB shift  19
+                           DOT shift  99
+                  project_name shift  130
 
-State 44:
+State 45:
           path_expr ::= * LP path_expr RP
           path_expr ::= LP * path_expr RP
           path_expr ::= * ID
@@ -2406,13 +2493,13 @@ State 44:
           path_expr ::= * path_expr LSB expr RSB
           path_expr ::= * path_expr LSB expr COLON expr RSB
 
-                            ID shift  110
-                            LP shift  44
-                        DOLLAR shift  117
-                     path_expr shift  42
+                            ID shift  114
+                            LP shift  45
+                        DOLLAR shift  121
+                     path_expr shift  43
 
-State 45:
-     (65) expr ::= path_expr *
+State 46:
+     (68) expr ::= path_expr *
           path_expr ::= path_expr * project_name
           project_name ::= * DOT ID
           path_expr ::= path_expr * LCB project_names RCB
@@ -2420,20 +2507,20 @@ State 45:
           path_expr ::= path_expr * LSB expr RSB
           path_expr ::= path_expr * LSB expr COLON expr RSB
 
-                           LCB shift  39
-                           LSB shift  17
-                           DOT shift  96
-                  project_name shift  126
-                     {default} reduce 65
+                           LCB shift  40
+                           LSB shift  19
+                           DOT shift  99
+                  project_name shift  130
+                     {default} reduce 68
 
-State 46:
+State 47:
           project_name ::= * DOT ID
           project_names ::= project_names COMMA * project_name
 
-                           DOT shift  96
-                  project_name shift  123
+                           DOT shift  99
+                  project_name shift  127
 
-State 47:
+State 48:
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
@@ -2451,25 +2538,25 @@ State 47:
           path_expr ::= path_expr LSB expr * RSB
           path_expr ::= path_expr LSB expr * COLON expr RSB
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                         COLON shift  16
-                           RSB shift  120
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                         COLON shift  18
+                           RSB shift  124
 
-State 48:
-     (25) group_expr ::= expr *
+State 49:
+     (28) group_expr ::= expr *
           group_expr ::= expr * AS ID
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
@@ -2486,24 +2573,24 @@ State 48:
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                            AS shift  87
-                     {default} reduce 25
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                            AS shift  89
+                     {default} reduce 28
 
-State 49:
+State 50:
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
@@ -2520,57 +2607,24 @@ State 49:
           pri_expr ::= expr * IN expr
           path_expr ::= path_expr LSB expr COLON expr * RSB
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                           RSB shift  119
-
-State 50:
-     (24) reduce_cmd ::= REDUCE BY group_exprs INTO expr *
-          pri_expr ::= expr * ADD expr
-          pri_expr ::= expr * SUB expr
-          pri_expr ::= expr * MUL expr
-          pri_expr ::= expr * DIV expr
-          pri_expr ::= expr * MOD expr
-          pri_expr ::= expr * LT expr
-          pri_expr ::= expr * GT expr
-          pri_expr ::= expr * LE expr
-          pri_expr ::= expr * GE expr
-          pri_expr ::= expr * EQ expr
-          pri_expr ::= expr * NE expr
-          pri_expr ::= expr * OR expr
-          pri_expr ::= expr * AND expr
-          pri_expr ::= expr * IN expr
-
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 24
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                           RSB shift  123
 
 State 51:
-     (23) reduce_cmd ::= REDUCE INTO expr *
+     (27) reduce_cmd ::= REDUCE BY group_exprs INTO expr *
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
@@ -2586,24 +2640,24 @@ State 51:
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 23
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 27
 
 State 52:
-     (22) group_cmd ::= GROUP BY group_exprs INTO expr *
+     (26) reduce_cmd ::= REDUCE INTO expr *
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
@@ -2619,24 +2673,24 @@ State 52:
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 22
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 26
 
 State 53:
-     (21) group_cmd ::= GROUP INTO expr *
+     (25) group_cmd ::= GROUP BY group_exprs INTO expr *
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
@@ -2652,24 +2706,24 @@ State 53:
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 21
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 25
 
 State 54:
-     (18) transform_cmd ::= TRANSFORM expr *
+     (24) group_cmd ::= GROUP INTO expr *
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
@@ -2685,23 +2739,24 @@ State 54:
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 18
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 24
 
 State 55:
+     (21) transform_cmd ::= TRANSFORM expr *
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
@@ -2716,25 +2771,25 @@ State 55:
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
-     (64) exprs ::= exprs COMMA expr *
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 64
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 21
 
 State 56:
+     (20) filter_cmd ::= FILTER expr *
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
@@ -2749,23 +2804,22 @@ State 56:
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
-     (63) exprs ::= expr *
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 63
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 20
 
 State 57:
           pri_expr ::= expr * ADD expr
@@ -2782,23 +2836,23 @@ State 57:
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
-     (58) field ::= field_name expr *
+     (67) exprs ::= exprs COMMA expr *
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 58
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 67
 
 State 58:
           pri_expr ::= expr * ADD expr
@@ -2815,24 +2869,25 @@ State 58:
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
+     (66) exprs ::= expr *
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 66
 
 State 59:
-     (17) filter_cmd ::= FILTER expr *
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
@@ -2847,22 +2902,23 @@ State 59:
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
+     (61) field ::= field_name expr *
 
-                            OR shift  23
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 17
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 61
 
 State 60:
           pri_expr ::= expr * ADD expr
@@ -2877,26 +2933,26 @@ State 60:
           pri_expr ::= expr * EQ expr
           pri_expr ::= expr * NE expr
           pri_expr ::= expr * OR expr
-     (49) pri_expr ::= expr OR expr *
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                           AND shift  22
-                            IN shift  21
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 49
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
 
 State 61:
+     (18) stream_cmd ::= SSTREAM DQ_STRING COMMA expr *
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
@@ -2911,20 +2967,22 @@ State 61:
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
-     (52) pri_expr ::= expr IN expr *
 
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 52
+                            OR shift  25
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 18
 
 State 62:
           pri_expr ::= expr * ADD expr
@@ -2939,22 +2997,24 @@ State 62:
           pri_expr ::= expr * EQ expr
           pri_expr ::= expr * NE expr
           pri_expr ::= expr * OR expr
+     (52) pri_expr ::= expr OR expr *
           pri_expr ::= expr * AND expr
-     (50) pri_expr ::= expr AND expr *
           pri_expr ::= expr * IN expr
 
-                            LT shift  29
-                            GT shift  28
-                            LE shift  27
-                            GE shift  26
-                            EQ shift  25
-                            NE shift  24
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 50
+                           AND shift  24
+                            IN shift  23
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 52
 
 State 63:
           pri_expr ::= expr * ADD expr
@@ -2968,17 +3028,23 @@ State 63:
           pri_expr ::= expr * GE expr
           pri_expr ::= expr * EQ expr
           pri_expr ::= expr * NE expr
-     (48) pri_expr ::= expr NE expr *
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
+     (55) pri_expr ::= expr IN expr *
 
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 48
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 55
 
 State 64:
           pri_expr ::= expr * ADD expr
@@ -2991,18 +3057,24 @@ State 64:
           pri_expr ::= expr * LE expr
           pri_expr ::= expr * GE expr
           pri_expr ::= expr * EQ expr
-     (47) pri_expr ::= expr EQ expr *
           pri_expr ::= expr * NE expr
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
+     (53) pri_expr ::= expr AND expr *
           pri_expr ::= expr * IN expr
 
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 47
+                            LT shift  31
+                            GT shift  30
+                            LE shift  29
+                            GE shift  28
+                            EQ shift  27
+                            NE shift  26
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 53
 
 State 65:
           pri_expr ::= expr * ADD expr
@@ -3014,19 +3086,19 @@ State 65:
           pri_expr ::= expr * GT expr
           pri_expr ::= expr * LE expr
           pri_expr ::= expr * GE expr
-     (46) pri_expr ::= expr GE expr *
           pri_expr ::= expr * EQ expr
           pri_expr ::= expr * NE expr
+     (51) pri_expr ::= expr NE expr *
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 46
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 51
 
 State 66:
           pri_expr ::= expr * ADD expr
@@ -3037,20 +3109,20 @@ State 66:
           pri_expr ::= expr * LT expr
           pri_expr ::= expr * GT expr
           pri_expr ::= expr * LE expr
-     (45) pri_expr ::= expr LE expr *
           pri_expr ::= expr * GE expr
           pri_expr ::= expr * EQ expr
+     (50) pri_expr ::= expr EQ expr *
           pri_expr ::= expr * NE expr
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 45
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 50
 
 State 67:
           pri_expr ::= expr * ADD expr
@@ -3060,21 +3132,21 @@ State 67:
           pri_expr ::= expr * MOD expr
           pri_expr ::= expr * LT expr
           pri_expr ::= expr * GT expr
-     (44) pri_expr ::= expr GT expr *
           pri_expr ::= expr * LE expr
           pri_expr ::= expr * GE expr
+     (49) pri_expr ::= expr GE expr *
           pri_expr ::= expr * EQ expr
           pri_expr ::= expr * NE expr
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 44
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 49
 
 State 68:
           pri_expr ::= expr * ADD expr
@@ -3083,9 +3155,9 @@ State 68:
           pri_expr ::= expr * DIV expr
           pri_expr ::= expr * MOD expr
           pri_expr ::= expr * LT expr
-     (43) pri_expr ::= expr LT expr *
           pri_expr ::= expr * GT expr
           pri_expr ::= expr * LE expr
+     (48) pri_expr ::= expr LE expr *
           pri_expr ::= expr * GE expr
           pri_expr ::= expr * EQ expr
           pri_expr ::= expr * NE expr
@@ -3093,22 +3165,22 @@ State 68:
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                           ADD shift  35
-                           SUB shift  33
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 43
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 48
 
 State 69:
           pri_expr ::= expr * ADD expr
-     (38) pri_expr ::= expr ADD expr *
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
           pri_expr ::= expr * DIV expr
           pri_expr ::= expr * MOD expr
           pri_expr ::= expr * LT expr
           pri_expr ::= expr * GT expr
+     (47) pri_expr ::= expr GT expr *
           pri_expr ::= expr * LE expr
           pri_expr ::= expr * GE expr
           pri_expr ::= expr * EQ expr
@@ -3117,15 +3189,41 @@ State 69:
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 38
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 47
 
 State 70:
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
-     (39) pri_expr ::= expr SUB expr *
+          pri_expr ::= expr * MUL expr
+          pri_expr ::= expr * DIV expr
+          pri_expr ::= expr * MOD expr
+          pri_expr ::= expr * LT expr
+     (46) pri_expr ::= expr LT expr *
+          pri_expr ::= expr * GT expr
+          pri_expr ::= expr * LE expr
+          pri_expr ::= expr * GE expr
+          pri_expr ::= expr * EQ expr
+          pri_expr ::= expr * NE expr
+          pri_expr ::= expr * OR expr
+          pri_expr ::= expr * AND expr
+          pri_expr ::= expr * IN expr
+
+                           ADD shift  37
+                           SUB shift  35
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 46
+
+State 71:
+          pri_expr ::= expr * ADD expr
+     (41) pri_expr ::= expr ADD expr *
+          pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
           pri_expr ::= expr * DIV expr
           pri_expr ::= expr * MOD expr
@@ -3139,12 +3237,34 @@ State 70:
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                           MUL shift  32
-                           DIV shift  31
-                           MOD shift  30
-                     {default} reduce 39
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 41
 
-State 71:
+State 72:
+          pri_expr ::= expr * ADD expr
+          pri_expr ::= expr * SUB expr
+     (42) pri_expr ::= expr SUB expr *
+          pri_expr ::= expr * MUL expr
+          pri_expr ::= expr * DIV expr
+          pri_expr ::= expr * MOD expr
+          pri_expr ::= expr * LT expr
+          pri_expr ::= expr * GT expr
+          pri_expr ::= expr * LE expr
+          pri_expr ::= expr * GE expr
+          pri_expr ::= expr * EQ expr
+          pri_expr ::= expr * NE expr
+          pri_expr ::= expr * OR expr
+          pri_expr ::= expr * AND expr
+          pri_expr ::= expr * IN expr
+
+                           MUL shift  34
+                           DIV shift  33
+                           MOD shift  32
+                     {default} reduce 42
+
+State 73:
           stmt ::= ID * PIPE commands
           stmt ::= ID * EQ commands
           stmt ::= ID * EQ ID PIPE commands
@@ -3152,374 +3272,391 @@ State 71:
                             EQ shift  4
                           PIPE shift  6
 
-State 72:
+State 74:
           reduce_cmd ::= REDUCE BY group_exprs * INTO expr
           group_exprs ::= group_exprs * COMMA group_expr
 
-                          INTO shift  11
                          COMMA shift  9
+                          INTO shift  12
 
-State 73:
+State 75:
           reduce_cmd ::= REDUCE * INTO expr
           reduce_cmd ::= REDUCE * BY group_exprs INTO expr
 
-                          INTO shift  12
+                          INTO shift  13
                             BY shift  2
 
-State 74:
+State 76:
           group_cmd ::= GROUP BY group_exprs * INTO expr
           group_exprs ::= group_exprs * COMMA group_expr
 
-                          INTO shift  13
                          COMMA shift  9
+                          INTO shift  14
 
-State 75:
+State 77:
           group_cmd ::= GROUP * INTO expr
           group_cmd ::= GROUP * BY group_exprs INTO expr
 
-                          INTO shift  14
+                          INTO shift  15
                             BY shift  3
 
-State 76:
+State 78:
           sliding_count_window_cmd ::= WINDOW_KW LP ROWS INT * RP
           sliding_count_window_cmd ::= WINDOW_KW LP ROWS INT * SLIDE INT RP
 
-                            RP shift  108
-                         SLIDE shift  89
+                            RP shift  111
+                         SLIDE shift  91
 
-State 77:
+State 79:
           exprs ::= exprs * COMMA expr
           func_expr ::= func_name exprs * RP
 
-                            RP shift  115
-                         COMMA shift  18
+                         COMMA shift  20
+                            RP shift  119
 
-State 78:
+State 80:
           path_expr ::= path_expr LCB MUL SUB project_names * RCB
           project_names ::= project_names * COMMA project_name
 
-                         COMMA shift  46
-                           RCB shift  122
+                         COMMA shift  47
+                           RCB shift  126
 
-State 79:
+State 81:
           path_expr ::= path_expr LCB project_names * RCB
           project_names ::= project_names * COMMA project_name
 
-                         COMMA shift  46
-                           RCB shift  124
+                         COMMA shift  47
+                           RCB shift  128
 
-State 80:
+State 82:
           expr ::= LSB exprs * RSB
           exprs ::= exprs * COMMA expr
 
-                         COMMA shift  18
-                           RSB shift  127
+                         COMMA shift  20
+                           RSB shift  131
 
-State 81:
+State 83:
           record ::= LCB fields * RCB
           fields ::= fields * COMMA field
 
-                         COMMA shift  38
-                           RCB shift  130
+                         COMMA shift  39
+                           RCB shift  134
 
-State 82:
+State 84:
           epn ::= stmt * SEMI
 
-                          SEMI shift  102
+                          SEMI shift  105
 
-State 83:
+State 85:
       (6) stmt ::= ID EQ ID PIPE commands *
           commands ::= commands * PIPE command
 
                           PIPE shift  10
                      {default} reduce 6
 
-State 84:
+State 86:
           stmt ::= ID EQ ID * PIPE commands
 
                           PIPE shift  5
 
-State 85:
+State 87:
       (5) stmt ::= ID EQ commands *
           commands ::= commands * PIPE command
 
                           PIPE shift  10
                      {default} reduce 5
 
-State 86:
+State 88:
       (4) stmt ::= ID PIPE commands *
           commands ::= commands * PIPE command
 
                           PIPE shift  10
                      {default} reduce 4
 
-State 87:
+State 89:
           group_expr ::= expr AS * ID
 
-                            ID shift  106
-
-State 88:
-          sliding_count_window_cmd ::= WINDOW_KW LP ROWS INT SLIDE INT * RP
-
-                            RP shift  107
-
-State 89:
-          sliding_count_window_cmd ::= WINDOW_KW LP ROWS INT SLIDE * INT RP
-
-                           INT shift  88
+                            ID shift  109
 
 State 90:
+          sliding_count_window_cmd ::= WINDOW_KW LP ROWS INT SLIDE INT * RP
+
+                            RP shift  110
+
+State 91:
+          sliding_count_window_cmd ::= WINDOW_KW LP ROWS INT SLIDE * INT RP
+
+                           INT shift  90
+
+State 92:
           sliding_count_window_cmd ::= WINDOW_KW LP ROWS * INT RP
           sliding_count_window_cmd ::= WINDOW_KW LP ROWS * INT SLIDE INT RP
 
-                           INT shift  76
+                           INT shift  78
 
-State 91:
+State 93:
           sliding_count_window_cmd ::= WINDOW_KW LP * ROWS INT RP
           sliding_count_window_cmd ::= WINDOW_KW LP * ROWS INT SLIDE INT RP
 
-                          ROWS shift  90
+                          ROWS shift  92
 
-State 92:
+State 94:
           sliding_count_window_cmd ::= WINDOW_KW * LP ROWS INT RP
           sliding_count_window_cmd ::= WINDOW_KW * LP ROWS INT SLIDE INT RP
 
-                            LP shift  91
-
-State 93:
-          field_name ::= ID * COLON
-     (67) path_expr ::= ID *
-
-                         COLON shift  112
-                     {default} reduce 67
-
-State 94:
-     (67) path_expr ::= ID *
-          func_name ::= ID * LP
-
-                            LP shift  118
-                     {default} reduce 67
+                            LP shift  93
 
 State 95:
-          path_expr ::= path_expr LCB MUL * SUB project_names RCB
-
-                           SUB shift  40
-
-State 96:
-          project_name ::= DOT * ID
-
-                            ID shift  125
-
-State 97:
-     (29) expr ::= pri_expr *
-          pri_expr ::= LP pri_expr * RP
-
-                            RP shift  144
-                     {default} reduce 29
-
-State 98:
           stream_cmd ::= OSTREAM * DQ_STRING
 
-                     DQ_STRING shift  146
+                     DQ_STRING shift  112
+
+State 96:
+          field_name ::= ID * COLON
+     (70) path_expr ::= ID *
+
+                         COLON shift  116
+                     {default} reduce 70
+
+State 97:
+     (70) path_expr ::= ID *
+          func_name ::= ID * LP
+
+                            LP shift  122
+                     {default} reduce 70
+
+State 98:
+          path_expr ::= path_expr LCB MUL * SUB project_names RCB
+
+                           SUB shift  41
 
 State 99:
-          stream_cmd ::= SSTREAM * DQ_STRING
+          project_name ::= DOT * ID
 
-                     DQ_STRING shift  147
+                            ID shift  129
 
 State 100:
+     (32) expr ::= pri_expr *
+          pri_expr ::= LP pri_expr * RP
+
+                            RP shift  148
+                     {default} reduce 32
+
+State 101:
+     (15) stream_cmd ::= SSTREAM DQ_STRING *
+          stream_cmd ::= SSTREAM DQ_STRING * COMMA SHUFFLE
+          stream_cmd ::= SSTREAM DQ_STRING * COMMA ALL
+          stream_cmd ::= SSTREAM DQ_STRING * COMMA expr
+
+                         COMMA shift  11
+                     {default} reduce 15
+
+State 102:
+          stream_cmd ::= SSTREAM * DQ_STRING
+          stream_cmd ::= SSTREAM * DQ_STRING COMMA SHUFFLE
+          stream_cmd ::= SSTREAM * DQ_STRING COMMA ALL
+          stream_cmd ::= SSTREAM * DQ_STRING COMMA expr
+
+                     DQ_STRING shift  101
+
+State 103:
       (3) stmt ::= commands *
           commands ::= commands * PIPE command
 
                           PIPE shift  10
                      {default} reduce 3
 
-State 101:
+State 104:
           epn ::= epn stmt * SEMI
 
-                          SEMI shift  155
+                          SEMI shift  159
 
-State 102:
+State 105:
       (1) epn ::= stmt SEMI *
 
                      {default} reduce 1
 
-State 103:
+State 106:
       (7) commands ::= command *
 
                      {default} reduce 7
 
-State 104:
-     (27) group_exprs ::= group_expr *
-
-                     {default} reduce 27
-
-State 105:
-     (28) group_exprs ::= group_exprs COMMA group_expr *
-
-                     {default} reduce 28
-
-State 106:
-     (26) group_expr ::= expr AS ID *
-
-                     {default} reduce 26
-
 State 107:
-     (20) sliding_count_window_cmd ::= WINDOW_KW LP ROWS INT SLIDE INT RP *
+     (30) group_exprs ::= group_expr *
 
-                     {default} reduce 20
+                     {default} reduce 30
 
 State 108:
-     (19) sliding_count_window_cmd ::= WINDOW_KW LP ROWS INT RP *
+     (31) group_exprs ::= group_exprs COMMA group_expr *
+
+                     {default} reduce 31
+
+State 109:
+     (29) group_expr ::= expr AS ID *
+
+                     {default} reduce 29
+
+State 110:
+     (23) sliding_count_window_cmd ::= WINDOW_KW LP ROWS INT SLIDE INT RP *
+
+                     {default} reduce 23
+
+State 111:
+     (22) sliding_count_window_cmd ::= WINDOW_KW LP ROWS INT RP *
+
+                     {default} reduce 22
+
+State 112:
+     (19) stream_cmd ::= OSTREAM DQ_STRING *
 
                      {default} reduce 19
 
-State 109:
-     (56) fields ::= field *
-
-                     {default} reduce 56
-
-State 110:
-     (67) path_expr ::= ID *
-
-                     {default} reduce 67
-
-State 111:
-     (66) path_expr ::= LP path_expr RP *
-
-                     {default} reduce 66
-
-State 112:
-     (60) field_name ::= ID COLON *
-
-                     {default} reduce 60
-
 State 113:
-     (59) field ::= path_expr DOT_STAR *
+     (59) fields ::= field *
 
                      {default} reduce 59
 
 State 114:
-     (79) func_expr ::= func_name RP *
-
-                     {default} reduce 79
-
-State 115:
-     (80) func_expr ::= func_name exprs RP *
-
-                     {default} reduce 80
-
-State 116:
-     (77) expr ::= func_expr *
-
-                     {default} reduce 77
-
-State 117:
-     (68) path_expr ::= DOLLAR *
-
-                     {default} reduce 68
-
-State 118:
-     (78) func_name ::= ID LP *
-
-                     {default} reduce 78
-
-State 119:
-     (76) path_expr ::= path_expr LSB expr COLON expr RSB *
-
-                     {default} reduce 76
-
-State 120:
-     (75) path_expr ::= path_expr LSB expr RSB *
-
-                     {default} reduce 75
-
-State 121:
-     (73) project_names ::= project_name *
-
-                     {default} reduce 73
-
-State 122:
-     (72) path_expr ::= path_expr LCB MUL SUB project_names RCB *
-
-                     {default} reduce 72
-
-State 123:
-     (74) project_names ::= project_names COMMA project_name *
-
-                     {default} reduce 74
-
-State 124:
-     (71) path_expr ::= path_expr LCB project_names RCB *
-
-                     {default} reduce 71
-
-State 125:
-     (70) project_name ::= DOT ID *
+     (70) path_expr ::= ID *
 
                      {default} reduce 70
 
-State 126:
-     (69) path_expr ::= path_expr project_name *
+State 115:
+     (69) path_expr ::= LP path_expr RP *
 
                      {default} reduce 69
 
-State 127:
-     (62) expr ::= LSB exprs RSB *
+State 116:
+     (63) field_name ::= ID COLON *
+
+                     {default} reduce 63
+
+State 117:
+     (62) field ::= path_expr DOT_STAR *
 
                      {default} reduce 62
 
-State 128:
-     (61) expr ::= LSB RSB *
+State 118:
+     (82) func_expr ::= func_name RP *
 
-                     {default} reduce 61
+                     {default} reduce 82
+
+State 119:
+     (83) func_expr ::= func_name exprs RP *
+
+                     {default} reduce 83
+
+State 120:
+     (80) expr ::= func_expr *
+
+                     {default} reduce 80
+
+State 121:
+     (71) path_expr ::= DOLLAR *
+
+                     {default} reduce 71
+
+State 122:
+     (81) func_name ::= ID LP *
+
+                     {default} reduce 81
+
+State 123:
+     (79) path_expr ::= path_expr LSB expr COLON expr RSB *
+
+                     {default} reduce 79
+
+State 124:
+     (78) path_expr ::= path_expr LSB expr RSB *
+
+                     {default} reduce 78
+
+State 125:
+     (76) project_names ::= project_name *
+
+                     {default} reduce 76
+
+State 126:
+     (75) path_expr ::= path_expr LCB MUL SUB project_names RCB *
+
+                     {default} reduce 75
+
+State 127:
+     (77) project_names ::= project_names COMMA project_name *
+
+                     {default} reduce 77
+
+State 128:
+     (74) path_expr ::= path_expr LCB project_names RCB *
+
+                     {default} reduce 74
 
 State 129:
-     (57) fields ::= fields COMMA field *
+     (73) project_name ::= DOT ID *
+
+                     {default} reduce 73
+
+State 130:
+     (72) path_expr ::= path_expr project_name *
+
+                     {default} reduce 72
+
+State 131:
+     (65) expr ::= LSB exprs RSB *
+
+                     {default} reduce 65
+
+State 132:
+     (64) expr ::= LSB RSB *
+
+                     {default} reduce 64
+
+State 133:
+     (60) fields ::= fields COMMA field *
+
+                     {default} reduce 60
+
+State 134:
+     (58) record ::= LCB fields RCB *
+
+                     {default} reduce 58
+
+State 135:
+     (57) record ::= LCB RCB *
 
                      {default} reduce 57
 
-State 130:
-     (55) record ::= LCB fields RCB *
+State 136:
+     (56) expr ::= record *
 
-                     {default} reduce 55
+                     {default} reduce 56
 
-State 131:
-     (54) record ::= LCB RCB *
+State 137:
+          pri_expr ::= expr * ADD expr
+          pri_expr ::= expr * SUB expr
+          pri_expr ::= expr * MUL expr
+          pri_expr ::= expr * DIV expr
+          pri_expr ::= expr * MOD expr
+          pri_expr ::= expr * LT expr
+          pri_expr ::= expr * GT expr
+          pri_expr ::= expr * LE expr
+          pri_expr ::= expr * GE expr
+          pri_expr ::= expr * EQ expr
+          pri_expr ::= expr * NE expr
+          pri_expr ::= expr * OR expr
+          pri_expr ::= expr * AND expr
+     (54) pri_expr ::= NOT expr *
+          pri_expr ::= expr * IN expr
 
                      {default} reduce 54
 
-State 132:
-     (53) expr ::= record *
-
-                     {default} reduce 53
-
-State 133:
+State 138:
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
           pri_expr ::= expr * DIV expr
           pri_expr ::= expr * MOD expr
-          pri_expr ::= expr * LT expr
-          pri_expr ::= expr * GT expr
-          pri_expr ::= expr * LE expr
-          pri_expr ::= expr * GE expr
-          pri_expr ::= expr * EQ expr
-          pri_expr ::= expr * NE expr
-          pri_expr ::= expr * OR expr
-          pri_expr ::= expr * AND expr
-     (51) pri_expr ::= NOT expr *
-          pri_expr ::= expr * IN expr
-
-                     {default} reduce 51
-
-State 134:
-          pri_expr ::= expr * ADD expr
-          pri_expr ::= expr * SUB expr
-          pri_expr ::= expr * MUL expr
-          pri_expr ::= expr * DIV expr
-          pri_expr ::= expr * MOD expr
-     (42) pri_expr ::= expr MOD expr *
+     (45) pri_expr ::= expr MOD expr *
           pri_expr ::= expr * LT expr
           pri_expr ::= expr * GT expr
           pri_expr ::= expr * LE expr
@@ -3530,14 +3667,14 @@ State 134:
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                     {default} reduce 42
+                     {default} reduce 45
 
-State 135:
+State 139:
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
           pri_expr ::= expr * DIV expr
-     (41) pri_expr ::= expr DIV expr *
+     (44) pri_expr ::= expr DIV expr *
           pri_expr ::= expr * MOD expr
           pri_expr ::= expr * LT expr
           pri_expr ::= expr * GT expr
@@ -3549,13 +3686,13 @@ State 135:
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
 
-                     {default} reduce 41
+                     {default} reduce 44
 
-State 136:
+State 140:
           pri_expr ::= expr * ADD expr
           pri_expr ::= expr * SUB expr
           pri_expr ::= expr * MUL expr
-     (40) pri_expr ::= expr MUL expr *
+     (43) pri_expr ::= expr MUL expr *
           pri_expr ::= expr * DIV expr
           pri_expr ::= expr * MOD expr
           pri_expr ::= expr * LT expr
@@ -3567,100 +3704,100 @@ State 136:
           pri_expr ::= expr * OR expr
           pri_expr ::= expr * AND expr
           pri_expr ::= expr * IN expr
+
+                     {default} reduce 43
+
+State 141:
+     (40) pri_expr ::= NUL *
 
                      {default} reduce 40
 
-State 137:
-     (37) pri_expr ::= NUL *
+State 142:
+     (39) pri_expr ::= FALSE *
+
+                     {default} reduce 39
+
+State 143:
+     (38) pri_expr ::= TRUE *
+
+                     {default} reduce 38
+
+State 144:
+     (37) pri_expr ::= DOUBLE *
 
                      {default} reduce 37
 
-State 138:
-     (36) pri_expr ::= FALSE *
+State 145:
+     (36) pri_expr ::= INT *
 
                      {default} reduce 36
 
-State 139:
-     (35) pri_expr ::= TRUE *
+State 146:
+     (35) pri_expr ::= SQ_STRING *
 
                      {default} reduce 35
 
-State 140:
-     (34) pri_expr ::= DOUBLE *
+State 147:
+     (34) pri_expr ::= DQ_STRING *
 
                      {default} reduce 34
 
-State 141:
-     (33) pri_expr ::= INT *
+State 148:
+     (33) pri_expr ::= LP pri_expr RP *
 
                      {default} reduce 33
 
-State 142:
-     (32) pri_expr ::= SQ_STRING *
+State 149:
+     (32) expr ::= pri_expr *
 
                      {default} reduce 32
 
-State 143:
-     (31) pri_expr ::= DQ_STRING *
+State 150:
+     (17) stream_cmd ::= SSTREAM DQ_STRING COMMA ALL *
 
-                     {default} reduce 31
+                     {default} reduce 17
 
-State 144:
-     (30) pri_expr ::= LP pri_expr RP *
-
-                     {default} reduce 30
-
-State 145:
-     (29) expr ::= pri_expr *
-
-                     {default} reduce 29
-
-State 146:
-     (16) stream_cmd ::= OSTREAM DQ_STRING *
+State 151:
+     (16) stream_cmd ::= SSTREAM DQ_STRING COMMA SHUFFLE *
 
                      {default} reduce 16
 
-State 147:
-     (15) stream_cmd ::= SSTREAM DQ_STRING *
-
-                     {default} reduce 15
-
-State 148:
+State 152:
      (14) command ::= reduce_cmd *
 
                      {default} reduce 14
 
-State 149:
+State 153:
      (13) command ::= group_cmd *
 
                      {default} reduce 13
 
-State 150:
+State 154:
      (12) command ::= sliding_count_window_cmd *
 
                      {default} reduce 12
 
-State 151:
+State 155:
      (11) command ::= transform_cmd *
 
                      {default} reduce 11
 
-State 152:
+State 156:
      (10) command ::= filter_cmd *
 
                      {default} reduce 10
 
-State 153:
+State 157:
       (9) command ::= stream_cmd *
 
                      {default} reduce 9
 
-State 154:
+State 158:
       (8) commands ::= commands PIPE command *
 
                      {default} reduce 8
 
-State 155:
+State 159:
       (2) epn ::= epn stmt SEMI *
 
                      {default} reduce 2
@@ -3688,57 +3825,59 @@ Symbols:
    18: PIPE
    19: SSTREAM
    20: DQ_STRING
-   21: OSTREAM
-   22: FILTER
-   23: TRANSFORM
-   24: WINDOW_KW
-   25: LP
-   26: ROWS
-   27: INT
-   28: RP
-   29: SLIDE
-   30: GROUP
-   31: INTO
-   32: BY
-   33: REDUCE
-   34: AS
-   35: COMMA
-   36: SQ_STRING
-   37: DOUBLE
-   38: TRUE
-   39: FALSE
-   40: NUL
-   41: LCB
-   42: RCB
-   43: DOT_STAR
-   44: COLON
-   45: LSB
-   46: RSB
-   47: DOLLAR
-   48: DOT
-   49: error:
-   50: commands: SSTREAM OSTREAM FILTER TRANSFORM WINDOW_KW GROUP REDUCE
-   51: command: SSTREAM OSTREAM FILTER TRANSFORM WINDOW_KW GROUP REDUCE
-   52: stream_cmd: SSTREAM OSTREAM
-   53: filter_cmd: FILTER
-   54: transform_cmd: TRANSFORM
-   55: sliding_count_window_cmd: WINDOW_KW
-   56: group_cmd: GROUP
-   57: reduce_cmd: REDUCE
-   58: group_expr: NOT ID DQ_STRING LP INT SQ_STRING DOUBLE TRUE FALSE NUL LCB LSB DOLLAR
-   59: group_exprs: NOT ID DQ_STRING LP INT SQ_STRING DOUBLE TRUE FALSE NUL LCB LSB DOLLAR
-   60: expr: NOT ID DQ_STRING LP INT SQ_STRING DOUBLE TRUE FALSE NUL LCB LSB DOLLAR
-   61: pri_expr: NOT ID DQ_STRING LP INT SQ_STRING DOUBLE TRUE FALSE NUL LCB LSB DOLLAR
-   62: exprs: NOT ID DQ_STRING LP INT SQ_STRING DOUBLE TRUE FALSE NUL LCB LSB DOLLAR
-   63: path_expr: ID LP DOLLAR
-   64: func_name: ID
-   65: func_expr: ID
-   66: project_name: DOT
-   67: project_names: DOT
-   68: main: ID SSTREAM OSTREAM FILTER TRANSFORM WINDOW_KW GROUP REDUCE
-   69: epn: ID SSTREAM OSTREAM FILTER TRANSFORM WINDOW_KW GROUP REDUCE
-   70: stmt: ID SSTREAM OSTREAM FILTER TRANSFORM WINDOW_KW GROUP REDUCE
-   71: record: LCB
-   72: fields: ID LP DOLLAR
-   73: field: ID LP DOLLAR
-   74: field_name: ID
+   21: COMMA
+   22: SHUFFLE
+   23: ALL
+   24: OSTREAM
+   25: FILTER
+   26: TRANSFORM
+   27: WINDOW_KW
+   28: LP
+   29: ROWS
+   30: INT
+   31: RP
+   32: SLIDE
+   33: GROUP
+   34: INTO
+   35: BY
+   36: REDUCE
+   37: AS
+   38: SQ_STRING
+   39: DOUBLE
+   40: TRUE
+   41: FALSE
+   42: NUL
+   43: LCB
+   44: RCB
+   45: DOT_STAR
+   46: COLON
+   47: LSB
+   48: RSB
+   49: DOLLAR
+   50: DOT
+   51: error:
+   52: commands: SSTREAM OSTREAM FILTER TRANSFORM WINDOW_KW GROUP REDUCE
+   53: command: SSTREAM OSTREAM FILTER TRANSFORM WINDOW_KW GROUP REDUCE
+   54: stream_cmd: SSTREAM OSTREAM
+   55: filter_cmd: FILTER
+   56: transform_cmd: TRANSFORM
+   57: sliding_count_window_cmd: WINDOW_KW
+   58: group_cmd: GROUP
+   59: reduce_cmd: REDUCE
+   60: group_expr: NOT ID DQ_STRING LP INT SQ_STRING DOUBLE TRUE FALSE NUL LCB LSB DOLLAR
+   61: group_exprs: NOT ID DQ_STRING LP INT SQ_STRING DOUBLE TRUE FALSE NUL LCB LSB DOLLAR
+   62: expr: NOT ID DQ_STRING LP INT SQ_STRING DOUBLE TRUE FALSE NUL LCB LSB DOLLAR
+   63: pri_expr: NOT ID DQ_STRING LP INT SQ_STRING DOUBLE TRUE FALSE NUL LCB LSB DOLLAR
+   64: exprs: NOT ID DQ_STRING LP INT SQ_STRING DOUBLE TRUE FALSE NUL LCB LSB DOLLAR
+   65: path_expr: ID LP DOLLAR
+   66: func_name: ID
+   67: func_expr: ID
+   68: project_name: DOT
+   69: project_names: DOT
+   70: main: ID SSTREAM OSTREAM FILTER TRANSFORM WINDOW_KW GROUP REDUCE
+   71: epn: ID SSTREAM OSTREAM FILTER TRANSFORM WINDOW_KW GROUP REDUCE
+   72: stmt: ID SSTREAM OSTREAM FILTER TRANSFORM WINDOW_KW GROUP REDUCE
+   73: record: LCB
+   74: fields: ID LP DOLLAR
+   75: field: ID LP DOLLAR
+   76: field_name: ID

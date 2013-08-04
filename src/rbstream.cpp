@@ -70,6 +70,96 @@ void RbSourceStream::CompositeSubscriberHandler::onAvailable(EventBufferEntry & 
     SourceStreamOperatorGroup* theGroup = pInvokePoints_->getGroup(entry.streamIdx_);
     int operatorsNum = (int) theGroup->operators.size();
 
+    if (nParallelism_ == 1) {
+        // partition policy will be bypassed.
+        StreamOperator* theOperator = theGroup->operators[0];
+        const char* stringText = entry.jsonText_->c_str();
+        int r = entry.event_->update(stringText);
+        assert (0 == r);                
+        entry.parsed_ = true;            
+
+        // loop each operator, apply partition policy
+        Event* pEvent =  entry.event_;
+        pEvent->incref();
+        for (int i = 0; i<operatorsNum; i++ ) {
+            theOperator = theGroup->operators[i];
+            theOperator->execute(seq, pEvent);
+        }
+        pEvent->decref();
+    }
+    else if (theGroup->needAllEvents == false) {
+        // all the operators are using roundrobin policy, so only need to pick one to evaluate
+        // also it's safe to assume one event will only be consumed by one parallel instance
+        StreamOperator* theOperator = theGroup->operators[0];
+        if (theOperator->getPartitionPolicy()->evalPolicy(index_, nParallelism_, seq, NULL)) {
+            const char* stringText = entry.jsonText_->c_str();
+            int r = entry.event_->update(stringText);
+            assert (0 == r);                
+            entry.parsed_ = true;            
+
+            // loop each operator, apply partition policy
+            Event* pEvent =  entry.event_;
+            pEvent->incref();
+            for (int i = 0; i<operatorsNum; i++ ) {
+                theOperator = theGroup->operators[i];
+                theOperator->execute(seq, pEvent);
+            }
+            pEvent->decref();
+        }
+        else {
+            //send the sync event in parallel execution case        
+            syncEvent_.update(NULL, Event::TYPE_SYNC, entry.event_->getTimestamp());
+            for (int i = 0; i<operatorsNum; i++ ) {
+                theOperator = theGroup->operators[i];
+                theOperator->execute(seq, & syncEvent_);
+            }
+        }
+    }
+    else {
+        // the policy require to parse every event for evalauation purpose,
+        // or the policy just requires all events
+        if (!entry.parsed_) {
+            entry.mutex_->lock();
+            // double check
+            if (!entry.parsed_) {
+                const char* stringText = entry.jsonText_->c_str();
+                int r = entry.event_->update(stringText);
+                assert (0 == r);                
+                entry.parsed_ = true;
+            }
+            entry.mutex_->unlock();
+        }
+
+        // loop each operator, apply partition policy
+        Event* pEvent =  entry.event_;
+        pEvent->incref();        
+        syncEvent_.update(NULL, Event::TYPE_SYNC, entry.event_->getTimestamp());
+        for (int i = 0; i<operatorsNum; i++ ) {
+            StreamOperator* theOperator = theGroup->operators[i];
+            if (theOperator->getPartitionPolicy()->evalPolicy(index_, nParallelism_, seq, pEvent)) {
+                theOperator->execute(seq, pEvent);
+            }
+            else {
+                //send the sync event in parallel execution case
+                theOperator->execute(seq, & syncEvent_);
+            }
+        }
+        pEvent->decref();
+    }
+
+    if (num_ == 0) 
+        t2_ =  clock();
+    num_++;
+    double duration;
+    if (num_ % TRACE_EVENT_NUM == 0) {
+        t1_ = t2_;
+        t2_ = clock();
+        duration = (t2_-t1_);
+        duration /= CLOCKS_PER_SEC;
+        printf("[Instance %2d] %ld [%9ld ~ %9ld] : %6.2f sec.\n", index_, TRACE_EVENT_NUM, num_-TRACE_EVENT_NUM, num_, duration );
+    }
+
+    /*
     // exploit a hardcoded roundrobin partition strategy
     if ( nParallelism_ == 1 || 
         (seq/10) % nParallelism_ == index_) {
@@ -115,5 +205,6 @@ void RbSourceStream::CompositeSubscriberHandler::onAvailable(EventBufferEntry & 
         }
         
     }
+    */
 }
 

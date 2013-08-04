@@ -12,6 +12,7 @@
 #include "expr.h"
 #include "builtinfuncs.h"
 
+#include "partpolicies.h"
 #include "rbstream.h"
 #include "eventsink.h"
 
@@ -284,6 +285,8 @@ private:
     int parallelIndex_;
     int nParallelism_; 
 
+    PartitionPolicy* inputPartitionPolicy_;          // default use Roundrobin parition policy
+
     JsonStringOutputStream payloadSerializer_;
     EventSink* sink_;
 
@@ -294,7 +297,31 @@ public:
     streamType_(streamType),
     sink_(NULL),
     parallelIndex_(0), 
-    nParallelism_(1) {
+    nParallelism_(1), 
+    inputPartitionPolicy_ (NULL) {
+        if (streamType_ == 0) {
+            strValue_ = "input_stream(";
+            strValue_ += streamName_;
+            strValue_ += ")";
+            isMutable_ = true ;   // source stream is deemed as a mutable operator
+
+            inputPartitionPolicy_ = new PartitionRoundrobin();  // only set default partition policy for input stream operator
+        }
+        else {
+            strValue_ = "output_stream(";
+            strValue_ += streamName_;
+            strValue_ += ")";
+            sink_ = new EventSink();
+        }        
+    }
+
+    StreamOperator(const char* pszStreamName, int streamType, PartitionPolicy* policy ) :
+    streamName_(pszStreamName), 
+    streamType_(streamType),
+    sink_(NULL),
+    parallelIndex_(0), 
+    nParallelism_(1), 
+    inputPartitionPolicy_ (policy) {    
         if (streamType_ == 0) {
             strValue_ = "input_stream(";
             strValue_ += streamName_;
@@ -306,16 +333,23 @@ public:
             strValue_ += streamName_;
             strValue_ += ")";
             sink_ = new EventSink();
-        }        
+        }            
     }
 
     virtual ~StreamOperator() {
         if (sink_) 
             delete sink_;
+        if (inputPartitionPolicy_)
+            delete inputPartitionPolicy_;
+    }
+
+    PartitionPolicy* getPartitionPolicy() {
+        return inputPartitionPolicy_;
     }
 
     virtual BaseOperator* clone() {
-        BaseOperator* clonedOperator = new StreamOperator(streamName_.c_str(), streamType_);
+        PartitionPolicy* clonedPolicy = (inputPartitionPolicy_ == NULL) ? NULL : inputPartitionPolicy_->clone();
+        BaseOperator* clonedOperator = new StreamOperator(streamName_.c_str(), streamType_, clonedPolicy);
         clonedOperator->cloneProtectedAttibutes(this);
         return clonedOperator;
     }
@@ -980,6 +1014,9 @@ public:
 struct SourceStreamOperatorGroup {
     string streamName;
     vector<StreamOperator*> operators;
+    bool needAllEvents;               // true:  these stream operators require all events, 
+                                      //        imply at least one operator exploits non-roundrobin policy
+                                      // false: all these stream operators exploit roundrobin policy.
 };
 
 /**
@@ -998,7 +1035,11 @@ struct SourceStreamOperatorGroupList {
         if (! retGroup) {
             retGroup = new SourceStreamOperatorGroup();
             retGroup->streamName = op->getStreamName();
+            retGroup->needAllEvents = op->getPartitionPolicy()->needAllEvent();
             theList.push_back(retGroup);
+        }
+        else {
+            retGroup->needAllEvents = retGroup->needAllEvents || op->getPartitionPolicy()->needAllEvent();
         }
         retGroup->operators.push_back(op);
         return retGroup;

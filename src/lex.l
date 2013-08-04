@@ -99,6 +99,9 @@ id        {alpha}[A-Za-z0-9_]*
 "into"         {mycolumnno += yyleng; return INTO;}
 
 "reduce"       {mycolumnno += yyleng; return REDUCE;}
+
+"shuffle"      {mycolumnno += yyleng; return SHUFFLE;}
+"all"          {mycolumnno += yyleng; return ALL;}
                 
 "true"   { mycolumnno += yyleng; return TRUE; }
 "false"  { mycolumnno += yyleng; return FALSE; }

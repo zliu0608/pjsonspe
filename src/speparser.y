@@ -150,6 +150,18 @@ stream_cmd(A) ::= SSTREAM DQ_STRING(B). {
       A = new StreamOperator(B.z, 0);
 }
 
+stream_cmd(A) ::= SSTREAM DQ_STRING(B) COMMA SHUFFLE. {
+      A = new StreamOperator(B.z, 0, new PartitionRoundrobin());
+}
+
+stream_cmd(A) ::= SSTREAM DQ_STRING(B) COMMA ALL. {
+      A = new StreamOperator(B.z, 0, new PartitionAll());
+}
+
+stream_cmd(A) ::= SSTREAM DQ_STRING(B) COMMA expr(C). {
+      A = new StreamOperator(B.z, 0, new PartitionPerValue(C));
+}
+
 stream_cmd(A) ::= OSTREAM DQ_STRING(B). {
       A = new StreamOperator(B.z, 1);
 }

@@ -23,7 +23,9 @@ class EventBufferEntry : public AbstractEntry {
 public:
     string* jsonText_;
     Event* event_;
+    fc::Mutex* mutex_;
     int streamIdx_;
+    bool parsed_;
 };
 
 
@@ -64,6 +66,9 @@ public:
         str->reserve(256);
         *str = "";
         buffer_.getEntry(i).jsonText_  = str;
+
+        buffer_.getEntry(i).mutex_ = new fc::Mutex();
+        buffer_.getEntry(i).parsed_ = false;
       }
     }
 
@@ -90,6 +95,7 @@ public:
         for (int i=0; i<buffer_.getCapacity(); i++) {
             delete(buffer_.getEntry(i).event_);
             delete(buffer_.getEntry(i).jsonText_);
+            delete (buffer_.getEntry(i).mutex_);
         }        
     }
 
@@ -211,6 +217,7 @@ public:
             // assert (0 == r);
             *(entry->jsonText_) = stringEvent;
             entry->streamIdx_ = streamId;
+            entry->parsed_ = false;
             producer_->commit(*entry);
             return 1;
         }
@@ -239,6 +246,7 @@ public:
                 entry = producer_->getEntry(i);
                 stringEvent = events[index];
                 entry->streamIdx_ = streamId;
+                entry->parsed_ = false;
                 index++;
                 *(entry->jsonText_) = stringEvent;
             }
