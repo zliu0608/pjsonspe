@@ -1,0 +1,2 @@
+this library is obtained from
+http://www.partow.net/programming/hashfunctions/#SDBMHashFunction
