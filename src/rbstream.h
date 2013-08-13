@@ -193,6 +193,7 @@ public:
             // int r = entry->event_->update(stringEvent);
             // assert (0 == r);
             *(entry->jsonText_) = stringEvent;
+            entry->event_->updateTimestamp(currentMicroSeconds());
             producer_->commit(*entry);
             return 1;
         }
@@ -216,6 +217,34 @@ public:
             // int r = entry->event_->update(stringEvent);
             // assert (0 == r);
             *(entry->jsonText_) = stringEvent;
+            entry->event_->updateTimestamp(currentMicroSeconds());
+            entry->streamIdx_ = streamId;
+            entry->parsed_ = false;
+            producer_->commit(*entry);
+            return 1;
+        }
+        else {
+            return -1;
+        }
+    }
+
+    /**
+     * publish one event with timestamp and content on to the specified source stream
+     *
+     * @param streamId the id of source stream where events should be published through
+     * @param ts the timestamp of event
+     * @param stringEvent the string content of event
+     * @return the number of event being published on success, 
+     *         on fail, a negative error code will be returned
+     */
+    int publish(int streamId, long64 ts, char* stringEvent) {
+        if ( running_ && producerInitialized_) {
+            EventBufferEntry* entry = producer_->nextEntry();
+            // update the entry with the event content to be pulished.
+            // int r = entry->event_->update(stringEvent);
+            // assert (0 == r);
+            *(entry->jsonText_) = stringEvent;
+            entry->event_->updateTimestamp(ts);
             entry->streamIdx_ = streamId;
             entry->parsed_ = false;
             producer_->commit(*entry);
@@ -249,6 +278,7 @@ public:
                 entry->parsed_ = false;
                 index++;
                 *(entry->jsonText_) = stringEvent;
+                entry->event_->updateTimestamp(currentMicroSeconds());
             }
             producer_->commit(returnedBatch);
             return returnedBatch.getSize();
@@ -278,6 +308,7 @@ public:
                 stringEvent = events[index];
                 index++;
                 *(entry->jsonText_) = stringEvent;
+                entry->event_->updateTimestamp(currentMicroSeconds());
             }
             producer_->commit(returnedBatch);
             return returnedBatch.getSize();

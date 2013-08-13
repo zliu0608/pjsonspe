@@ -697,8 +697,17 @@ public:
             iter->second = data;
         }        
     }
+
+    bool isSyncByInterval() {
+        return useIntervalSync_;
+    }
+
+    void setSyncByInterval(bool value) {
+        useIntervalSync_ = value;
+    }
 protected:
     map<int,void*> operatorSharedDataMap_;
+    bool useIntervalSync_ ;        // control sync frequency, only used by window operators, false: sync every event; true sync every 200000 by default.
 };
 
 /**
@@ -913,6 +922,18 @@ public:
         pSourceList_(new vector<StreamOperator*>() ),
         pOuputStreamList_(new vector<StreamOperator*>()),
         seq_(0) {
+            // this executor by default just sync every event
+            setSyncByInterval(false);  
+            executorCtx_.setExecutor(this);
+            prepare();
+    }
+
+    SimpleCommandsExecutor(vector<OperatorPipeline*>* pipelines, bool syncByInterval) : pPipelineList_(pipelines), 
+        pSourceList_(new vector<StreamOperator*>() ),
+        pOuputStreamList_(new vector<StreamOperator*>()),
+        seq_(0) {
+            // this executor by default just sync every event
+            setSyncByInterval(syncByInterval);  
             executorCtx_.setExecutor(this);
             prepare();
     }
@@ -1301,6 +1322,8 @@ public:
       pSourceList_(new vector<SourceStreamOperatorGroupList*>()), 
       pSinkList_(new vector<EventSink*>()),
       theRBStream_(NULL) {
+        // by default enable sync by interval (every 200000 events)
+        setSyncByInterval(true); 
         doStaticAnalysis();
         for (unsigned int i = 0; i< nParallelism; i++) {
             runnablePipelineGroups_.push_back(clonePipelines());
@@ -1425,6 +1448,19 @@ public:
      */
     int publishEvent(int streamId, char* stringEvent) {
         return theRBStream_->publish(streamId, stringEvent);
+    }
+
+    /**
+     * publish one event on to the specified stream
+     *
+     * @param streamId the id of stream where events should be published on to
+     * @param ts the timestamp of event
+     * @param stringEvent the string content of event
+     * @return the number of event being published on success, 
+     *         on fail, a negative error code will be returned
+     */
+    int publishEvent(int streamId, long64 ts, char* stringEvent) {
+        return theRBStream_->publish(streamId, ts, stringEvent);
     }
 
     /**

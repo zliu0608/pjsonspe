@@ -21,6 +21,12 @@ BuiltinFunctionExpr* createBuiltinFunction(const char* funcName, vector<Expr*>* 
     else if (0 == strcmp("is_null", funcName)) {
         return new IsNullFunction(args);
     }    
+    else if (0 == strcmp("max", funcName)) {
+        return new MaxFunction(args);
+    }  
+    else if (0 == strcmp("min", funcName)) {
+        return new MinFunction(args);
+    }  
     else if (0 == strcmp("agg_count", funcName)) {
         return new AggCountFunction(args);
     }    

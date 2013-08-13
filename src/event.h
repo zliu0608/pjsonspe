@@ -95,6 +95,68 @@ public:
         return 0;
     }
 
+    // update event is only allowed when the refcount = 0;
+    // return 0 on a succesful update
+    int update(const char* jsonText, int64_t ts) {
+        if (refCount_ != 0)
+            return -1;
+
+        // need to call destructor, otherwise reuse document object would cause memleak
+        pPayload_->~Document();
+        new(pPayload_) Document();
+
+        // ParseInsitu seems to have better performance
+        // if (pPayload_->ParseInsitu<0>(jsonText).HasParseError()) {
+        if (pPayload_->Parse<0>(jsonText).HasParseError()) {
+            printf("error occured\n");
+            return -2;
+        }
+        ts_ = ts;
+        type_ = TYPE_PLUS;
+        return 0;
+    }
+
+
+    /* 
+     * Update event payload is only allowed when the refcount = 0;
+     *
+     * @return 0 on a succesful update
+     *
+     * Note: updatePayload and updateTimestamp function are only used in
+     * RbSourceStream::CompositeSubscriberHandler::onAvailable() call back 
+     * timestamp is updated at publisher side,  event payload is updated 
+     * at subscriber side.
+     */
+    int updatePayload(const char* jsonText) {
+        if (refCount_ != 0)
+            return -1;
+
+        // need to call destructor, otherwise reuse document object would cause memleak
+        pPayload_->~Document();
+        new(pPayload_) Document();
+
+        // ParseInsitu seems to have better performance
+        // if (pPayload_->ParseInsitu<0>(jsonText).HasParseError()) {
+        if (pPayload_->Parse<0>(jsonText).HasParseError()) {
+            printf("error occured\n");
+            return -2;
+        }
+        type_ = TYPE_PLUS;
+        return 0;
+    }
+
+    /* 
+     * Update event timestamp
+     *
+     * Note: updatePayload and updateTimestamp function are only used in
+     * RbSourceStream::CompositeSubscriberHandler::onAvailable() call back 
+     * timestamp is updated at publisher side,  event payload is updated 
+     * at subscriber side.
+     */
+    void updateTimestamp(int64_t ts) {
+        ts_ = ts;
+    }
+
     virtual ~Event(){
         if (pPayload_) {
             delete pPayload_;

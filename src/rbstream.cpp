@@ -74,7 +74,8 @@ void RbSourceStream::CompositeSubscriberHandler::onAvailable(EventBufferEntry & 
         // partition policy will be bypassed.
         StreamOperator* theOperator = theGroup->operators[0];
         const char* stringText = entry.jsonText_->c_str();
-        int r = entry.event_->update(stringText);
+        // only need to update payload as timesamp has been updated by publish time
+        int r = entry.event_->updatePayload(stringText); 
         assert (0 == r);                
         entry.parsed_ = true;            
 
@@ -93,7 +94,7 @@ void RbSourceStream::CompositeSubscriberHandler::onAvailable(EventBufferEntry & 
         StreamOperator* theOperator = theGroup->operators[0];
         if (theOperator->getPartitionPolicy()->evalPolicy(index_, nParallelism_, seq, NULL)) {
             const char* stringText = entry.jsonText_->c_str();
-            int r = entry.event_->update(stringText);
+            int r = entry.event_->updatePayload(stringText);
             assert (0 == r);                
             entry.parsed_ = true;            
 
@@ -123,7 +124,7 @@ void RbSourceStream::CompositeSubscriberHandler::onAvailable(EventBufferEntry & 
             // double check
             if (!entry.parsed_) {
                 const char* stringText = entry.jsonText_->c_str();
-                int r = entry.event_->update(stringText);
+                int r = entry.event_->updatePayload(stringText);
                 assert (0 == r);                
                 entry.parsed_ = true;
             }

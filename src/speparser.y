@@ -33,6 +33,8 @@ using namespace std;
 %type filter_cmd {BaseOperator*}
 %type transform_cmd {BaseOperator*}
 %type sliding_count_window_cmd {BaseOperator*}
+%type sliding_time_window_cmd  {BaseOperator*}
+%type time_interval {long64}
 %type group_cmd {BaseOperator*}
 %type reduce_cmd {BaseOperator*}
 %type group_expr {GroupExpr*}
@@ -138,6 +140,10 @@ command(A) ::=sliding_count_window_cmd(B). {
       A = B;
 }
 
+command(A) ::=sliding_time_window_cmd(B). {
+      A = B;
+}
+
 command(A) ::= group_cmd(B). {
       A = B;
 }
@@ -174,13 +180,62 @@ transform_cmd(A) ::= TRANSFORM expr(B). {
 	  A = new TransformOperator(B);
 }
 
-sliding_count_window_cmd(A) ::= WINDOW_KW LP ROWS INT(B) RP. {
+sliding_count_window_cmd(A) ::= WINDOW_KW LP INT(B) ROWS RP. {
 	A = new SlidingCountWindowOperator(atoi(B.z), 1);
 }
 
-sliding_count_window_cmd(A) ::= WINDOW_KW LP ROWS INT(B) SLIDE INT(C) RP. {
+sliding_count_window_cmd(A) ::= WINDOW_KW LP INT(B) ROWS SLIDE INT(C) RP. {
 	A = new SlidingCountWindowOperator(atoi(B.z), atoi(C.z));
 }
+
+sliding_time_window_cmd(A) ::= WINDOW_KW LP time_interval(B) RP. {
+	A = new SlidingTimeWindowOperator(B, 1);	
+	if (B <= 0) {
+		pParseContext->errorCode = -3;
+		printf("Query Error: invalid time window size.\n ");	
+	} 
+}
+
+sliding_time_window_cmd(A) ::= WINDOW_KW LP time_interval(B) SLIDE time_interval(C) RP. {
+	A = new SlidingTimeWindowOperator(B, C);
+	if (B <= 0) {
+		pParseContext->errorCode = -3;
+		printf("Query Error: invalid time window size.\n ");	
+	} 
+	if (B <= 0) {
+		pParseContext->errorCode = -4;
+		printf("Query Error: invalid time window slide step.\n ");	
+	} 			
+}
+
+time_interval(A) ::= INT(B) SECONDS. {
+    A = atolong64(B.z) * 1000 * 1000;
+}
+
+time_interval(A) ::= INT(B) MINUTES. {
+    A = atolong64(B.z) * 60 * 1000 * 1000;
+}
+
+time_interval(A) ::= INT(B) HOURS. {
+    A = atolong64(B.z) * 60* 60 * 1000 * 1000;
+}
+
+time_interval(A) ::= INT(B) DAYS. {
+    A = atolong64(B.z) * 24* 60* 60 * 1000 * 1000;
+}
+
+time_interval(A) ::= time_interval(B) INT(C) HOURS. {
+	A = B + atolong64(C.z) * 60* 60 * 1000 * 1000;
+}
+
+time_interval(A) ::= time_interval(B) INT(C) MINUTES. {
+	A = B + atolong64(C.z) * 60 * 1000 * 1000;
+}
+
+time_interval(A) ::= time_interval(B) INT(C) SECONDS. {
+	A = B + atolong64(C.z) * 1000 * 1000;
+}
+
 
 group_cmd(A) ::= GROUP INTO expr(B). {
     A = new GroupOperator(NULL, B);

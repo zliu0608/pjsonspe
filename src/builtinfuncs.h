@@ -120,6 +120,140 @@ public:
     }
 };
 
+
+/**
+ * max function, returns a bigger value of the 2 arguments
+ * the argument should be a scalar number
+ */
+class MaxFunction : public BuiltinFunctionExpr {
+public:
+    MaxFunction(vector<Expr*>* args) : BuiltinFunctionExpr(args) {
+    }
+
+    virtual ~MaxFunction() {
+    }
+
+    // @override
+    virtual Variant& eval(BaseExecutionContext* pCtx) {
+        Variant& v0 = (*argumentList_)[0]->eval(pCtx);
+        Variant& v1 = (*argumentList_)[1]->eval(pCtx);
+        Value& arg0 = v0.getValue();
+        Value& arg1 = v1.getValue();
+
+        v0.gt(vFlag_, v1);
+        if (vFlag_.getBool()) {
+            if (arg0.IsInt())  {
+                ret_.getValue().SetInt(arg0.GetInt());
+            }
+            else if (arg0.IsUint()) {
+                ret_.getValue().SetUint(arg0.GetUint());
+            }
+            else if (arg0.IsInt64()){
+                ret_.getValue().SetInt64(arg0.GetInt64());
+            }
+            else if ( arg0.IsUint64()) {
+                ret_.getValue().SetUint64(arg0.GetUint64());
+            }
+            else if (arg0.IsDouble()) {
+                ret_.getValue().SetDouble(arg0.GetDouble());
+            }            
+        }
+        else {
+            if (arg1.IsInt())  {
+                ret_.getValue().SetInt(arg1.GetInt());
+            }
+            else if (arg1.IsUint()) {
+                ret_.getValue().SetUint(arg1.GetUint());
+            }
+            else if (arg1.IsInt64()){
+                ret_.getValue().SetInt64(arg1.GetInt64());
+            }
+            else if ( arg1.IsUint64()) {
+                ret_.getValue().SetUint64(arg1.GetUint64());
+            }
+            else if (arg1.IsDouble()) {
+                ret_.getValue().SetDouble(arg1.GetDouble());
+            }     
+        }
+        return ret_;
+    }
+
+    // @override
+    virtual Expr* clone() {
+        vector<Expr*>* clonedArgs = cloneArgList();
+        return new MaxFunction(clonedArgs);
+    }
+private:
+    Variant vFlag_;
+};
+
+
+/**
+ * min function, returns a smaller value of the 2 arguments
+ * the argument should be a scalar number
+ */
+class MinFunction : public BuiltinFunctionExpr {
+public:
+    MinFunction(vector<Expr*>* args) : BuiltinFunctionExpr(args) {
+    }
+
+    virtual ~MinFunction() {
+    }
+
+    // @override
+    virtual Variant& eval(BaseExecutionContext* pCtx) {
+        Variant& v0 = (*argumentList_)[0]->eval(pCtx);
+        Variant& v1 = (*argumentList_)[1]->eval(pCtx);
+        Value& arg0 = v0.getValue();
+        Value& arg1 = v1.getValue();
+
+        v0.lt(vFlag_, v1);
+        if (vFlag_.getBool()) {
+            if (arg0.IsInt())  {
+                ret_.getValue().SetInt(arg0.GetInt());
+            }
+            else if (arg0.IsUint()) {
+                ret_.getValue().SetUint(arg0.GetUint());
+            }
+            else if (arg0.IsInt64()){
+                ret_.getValue().SetInt64(arg0.GetInt64());
+            }
+            else if ( arg0.IsUint64()) {
+                ret_.getValue().SetUint64(arg0.GetUint64());
+            }
+            else if (arg0.IsDouble()) {
+                ret_.getValue().SetDouble(arg0.GetDouble());
+            }            
+        }
+        else {
+            if (arg1.IsInt())  {
+                ret_.getValue().SetInt(arg1.GetInt());
+            }
+            else if (arg1.IsUint()) {
+                ret_.getValue().SetUint(arg1.GetUint());
+            }
+            else if (arg1.IsInt64()){
+                ret_.getValue().SetInt64(arg1.GetInt64());
+            }
+            else if ( arg1.IsUint64()) {
+                ret_.getValue().SetUint64(arg1.GetUint64());
+            }
+            else if (arg1.IsDouble()) {
+                ret_.getValue().SetDouble(arg1.GetDouble());
+            }     
+        }
+        return ret_;
+    }
+
+    // @override
+    virtual Expr* clone() {
+        vector<Expr*>* clonedArgs = cloneArgList();
+        return new MinFunction(clonedArgs);
+    }
+private:
+    Variant vFlag_;
+};
+
 /**
  * round function, round a number to the closest integer
  * the argument should be a scalar number

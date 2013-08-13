@@ -75,6 +75,7 @@ EXES= test_engine.exe \
       transform_test.exe \
       topology_test.exe \
       group_test.exe \
+      timewindow_test.exe \
       static_analysis_test.exe \
       bench_agg.exe
 
@@ -157,6 +158,12 @@ group_test.exe :  $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\group_test.obj
      shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib \
      $(GTEST_LIB) 
 
+timewindow_test.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\timewindow_test.obj
+  $(LINKCMD) $(LINKFLAGS) /PDB:"$(BIN_DIR)\timewindow_test.pdb" $(OBJS) jsonspeutils.obj timewindow_test.obj \
+     kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
+     shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib \
+     $(GTEST_LIB) 
+     
 static_analysis_test.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\static_analysis_test.obj
   $(LINKCMD) $(LINKFLAGS) /PDB:"$(BIN_DIR)\static_analysis_test.pdb" $(OBJS) jsonspeutils.obj static_analysis_test.obj \
      kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \

@@ -91,8 +91,18 @@ id        {alpha}[A-Za-z0-9_]*
 "transform"    {mycolumnno += yyleng; copyTerminalStr(); return TRANSFORM; }
 
 "window"       {mycolumnno += yyleng; copyTerminalStr(); return WINDOW_KW; }
+"row"          {mycolumnno += yyleng; return ROWS; }
 "rows"         {mycolumnno += yyleng; return ROWS; }
 "slide"        {mycolumnno += yyleng; return SLIDE;}
+
+"second"       {mycolumnno += yyleng; return SECONDS; }
+"seconds"      {mycolumnno += yyleng; return SECONDS; }
+"minute"       {mycolumnno += yyleng; return MINUTES; }
+"minutes"      {mycolumnno += yyleng; return MINUTES; }
+"hour"         {mycolumnno += yyleng; return HOURS; }
+"hours"        {mycolumnno += yyleng; return HOURS; }
+"day"          {mycolumnno += yyleng; return DAYS; }
+"days"         {mycolumnno += yyleng; return DAYS; }
 
 "group"        {mycolumnno += yyleng; return GROUP;}
 "by"           {mycolumnno += yyleng; return BY;}
