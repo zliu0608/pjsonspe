@@ -222,6 +222,24 @@ public:
             flushOutputs(seq, pevent);
             return;
         }
+        else if (pevent->isClearEvent()) {            
+            for (GroupContextMap::iterator iter= groupContextMap_.begin(); iter != groupContextMap_.end();)  {
+                // send minus event to downstream reduce operator            
+                IntermediateEvent theOutEvent;
+                Event* lastResultEvent = iter->second->getResultEvent();
+                if (lastResultEvent && !(lastResultEvent->getPayload()->IsNull())) {
+                    theOutEvent.setEvent(lastResultEvent->getPayload(), Event::TYPE_MINUS, pevent->getTimestamp());
+                    if (pNextOperator_) {
+                        pNextOperator_->execute(seq, &theOutEvent);
+                    }
+                }
+
+                // clear the group context
+                delete (iter->second);
+                iter = groupContextMap_.erase(iter);
+            }
+            return;
+        }
         else if (! pevent->isDataEvent()) {
             // directly pass down
             if (pNextOperator_) {

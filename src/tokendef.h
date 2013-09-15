@@ -143,6 +143,11 @@ public:
 
 typedef vector<BaseOperator*> OperatorPipeline;
 
+/**
+ *  All window operator should inherite from WindowBaseOperator
+ */
+class WindowBaseOperator : public BaseOperator {
+};
 
 /**
  * A symbolic operator, it doesn't process event, instead it's used to connect two or more piplelines together
@@ -173,6 +178,15 @@ public:
 
     string& getConnectPointName() {
         return pointName_;
+    }
+
+    bool isFromWindow() {
+        // find the operator in front of the ConnectOperator in fromPipeline
+        // check if it's a window operator
+        OperatorPipeline::reverse_iterator rit = fromPipeline_->rbegin();
+        rit++;
+        WindowBaseOperator* winOp = dynamic_cast<WindowBaseOperator*> (*rit);
+        return (winOp != NULL);
     }
 
     // @override
@@ -1154,37 +1168,7 @@ private:
      *
      * @return the cloned PipelineGroup
      */
-    PipelineGroupPtr clonePipelines() {
-        PipelineGroupPtr theClonedGroup = new vector<OperatorPipeline*>();
-        for (vector<OperatorPipeline*>::const_iterator iter = pPipelineList_->begin(); iter < pPipelineList_->end(); iter++) {
-            theClonedGroup->push_back(cloneOnePipeline(*iter));
-        }
-
-        // establish connectivity for cloned ConnectOperators
-        int i =0;
-        for (vector<OperatorPipeline*>::const_iterator iter = pPipelineList_->begin(); iter < pPipelineList_->end(); iter++, i++) {
-            OperatorPipeline* thePipeline = *iter;
-            BaseOperator* theOp = thePipeline->back();
-            ConnectPointOperator* theConnectOp = dynamic_cast<ConnectPointOperator*>(theOp);
-            if (theConnectOp != NULL) {
-                // since the corresponding cloned pipleline have same operators as the original pipleline.
-                // its last operator must be a ConnectPoint operator too.
-                ConnectPointOperator* theClonedConnectOp = dynamic_cast<ConnectPointOperator*>((*theClonedGroup)[i]->back());
-                theClonedConnectOp->fromPipeline_ = (*theClonedGroup)[i];
-
-                for (vector<OperatorPipeline*>::const_iterator iter2 = theConnectOp->toPipelines_.begin(); iter2 < theConnectOp->toPipelines_.end(); iter2++) {
-                    int id = (*iter2)->front()->getOperatorId();
-                    for (vector<OperatorPipeline*>::const_iterator iter3 = theClonedGroup->begin(); iter3 < theClonedGroup->end(); iter3++) {
-                        if ((*iter3)->front()->getOperatorId() == id) {
-                            theClonedConnectOp->addTargetPipeline(*iter3);
-                            continue;
-                        }
-                    }
-                }
-            }
-        }
-        return theClonedGroup;
-    }
+    PipelineGroupPtr clonePipelines() ;
 
     /**
      * destroy one operator chain instance

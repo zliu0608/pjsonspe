@@ -77,7 +77,13 @@ EXES= test_engine.exe \
       group_test.exe \
       timewindow_test.exe \
       static_analysis_test.exe \
-      bench_agg.exe
+      bench_agg.exe \
+      join_test.exe \
+      index_test.exe \
+      join_agg_test.exe \
+      benchmark_watchlist.exe \
+      benchmark_s2winjoin_agg.exe \
+      benchmark_win2winjoin_agg.exe
 
 OBJS= $(BIN_DIR)\common.obj \
       $(BIN_DIR)\scanner.obj \
@@ -87,6 +93,7 @@ OBJS= $(BIN_DIR)\common.obj \
       $(BIN_DIR)\builtinfuncs.obj \
       $(BIN_DIR)\speparser.obj \
       $(BIN_DIR)\reduce.obj \
+      $(BIN_DIR)\tokendef.obj \
       $(BIN_DIR)\GeneralHashFunctions.obj
 
 #================================================================
@@ -175,6 +182,39 @@ bench_agg.exe :  $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\benchmark_aggreg
      kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
      shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libtcmalloc_minimal.lib      
 
+benchmark_watchlist.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\benchmark_watchlist.obj
+  $(LINKCMD) $(LINKFLAGS)  /INCLUDE:"__tcmalloc" /PDB:"$(BIN_DIR)\benchmark_watchlist.pdb" $(OBJS) jsonspeutils.obj benchmark_watchlist.obj \
+     kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
+     shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libtcmalloc_minimal.lib  
+
+benchmark_s2winjoin_agg.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\benchmark_s2winjoin_agg.obj
+  $(LINKCMD) $(LINKFLAGS) /INCLUDE:"__tcmalloc" /PDB:"$(BIN_DIR)\benchmark_s2winjoin_agg.pdb" $(OBJS) jsonspeutils.obj benchmark_s2winjoin_agg.obj \
+     kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
+     shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  libtcmalloc_minimal.lib  
+
+benchmark_win2winjoin_agg.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\benchmark_win2winjoin_agg.obj
+  $(LINKCMD) $(LINKFLAGS) /INCLUDE:"__tcmalloc" /PDB:"$(BIN_DIR)\benchmark_win2winjoin_agg.pdb" $(OBJS) jsonspeutils.obj benchmark_win2winjoin_agg.obj \
+     kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
+     shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  libtcmalloc_minimal.lib  
+
+join_test.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\join_test.obj
+  $(LINKCMD) $(LINKFLAGS) /PDB:"$(BIN_DIR)\join_test.pdb" $(OBJS) jsonspeutils.obj join_test.obj \
+     kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
+     shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib \
+     $(GTEST_LIB) 
+     
+index_test.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\index_test.obj
+  $(LINKCMD) $(LINKFLAGS) /PDB:"$(BIN_DIR)\index_test.pdb" $(OBJS) jsonspeutils.obj index_test.obj \
+     kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
+     shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib \
+     $(GTEST_LIB) 
+
+join_agg_test.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\join_agg_test.obj
+  $(LINKCMD) $(LINKFLAGS) /PDB:"$(BIN_DIR)\join_agg_test.pdb" $(OBJS) jsonspeutils.obj join_agg_test.obj \
+     kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
+     shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib \
+     $(GTEST_LIB) 
+     
 temp_test.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\temp_test.obj
   $(LINKCMD) $(LINKFLAGS) /PDB:"$(BIN_DIR)\temp_test.pdb" $(OBJS) jsonspeutils.obj temp_test.obj \
      kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \

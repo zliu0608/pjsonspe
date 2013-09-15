@@ -199,9 +199,12 @@ private:
             // found a bag with min seq, get all bags with same seq, put them in bagsInReduceBatch
             if (theBag) {
                 for (int i=0; i< parallelism_; i++) {
-                    if (bagManagers_[i]->getFirstReadyBag() && 
-                        theBag->seq_ == bagManagers_[i]->getFirstReadyBag()->seq_) {
-                        bagsInReduceBatch_[readyBagNumInReduceBatch_] = bagManagers_[i]->getFirstReadyBag();
+                    if (bagManagers_[i]->getFirstReadyBag() ) //&& 
+                        // theBag->seq_ == bagManagers_[i]->getFirstReadyBag()->seq_) {
+                    {
+                        if (theBag->seq_ == bagManagers_[i]->getFirstReadyBag()->seq_) {
+                            bagsInReduceBatch_[readyBagNumInReduceBatch_] = bagManagers_[i]->getFirstReadyBag();
+                        }
                         readyBagNumInReduceBatch_++;
                     }
                 }
@@ -230,7 +233,9 @@ private:
             // reset some data
             readyBagNumInReduceBatch_ = 0;
             nextReduceBagIndex_ = 0;
-            for (int i =0; i< parallelism_; i++) {
+            int n = (int) bagsInReduceBatch_.size();
+            // for (int i =0; i< parallelism_; i++) {
+            for (int i =0; i< n; i++) {
                 // move the bag into free bags pool
                 freeBags_.push_back(bagsInReduceBatch_[i]);
                 bagsInReduceBatch_[i] = NULL;

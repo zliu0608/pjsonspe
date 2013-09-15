@@ -44,7 +44,7 @@ public:
 /**
  * Sliding Count Window operator interface
  */
-class SlidingCountWindowOperator : public BaseOperator {
+class SlidingCountWindowOperator : public WindowBaseOperator {
 public:
     /**
      * Sliding Count Window iterator
@@ -121,7 +121,11 @@ public:
 
     // @override
     virtual void execute(long64 seq, Event* pevent) {
-        // pass through control events
+        if (pevent->isClearEvent()) {
+            // block clear event from propagating
+            return;
+        }
+        // pass through other control events
         if (!(pevent->isDataOrSyncEvent())) {
             if (pNextOperator_) {
                  pNextOperator_->execute(seq, pevent);
@@ -246,7 +250,7 @@ private:
 /**
  * Sliding Time based Window operator interface
  */
-class SlidingTimeWindowOperator : public BaseOperator {
+class SlidingTimeWindowOperator : public WindowBaseOperator {
 public:
     /**
      * Sliding Time Window iterator
@@ -330,6 +334,10 @@ public:
 
     // @override
     virtual void execute(long64 seq, Event* pevent) {
+        if (pevent->isClearEvent()) {
+            // block clear event from propagating
+            return;
+        }
         // pass through control events
         if (!(pevent->isDataOrSyncEvent())) {
             if (pNextOperator_) {

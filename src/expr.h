@@ -8,14 +8,21 @@
 #include <limits>
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <string.h>
 #include <assert.h>
 
 #include "event.h"
 #include "groupcontext.h"
 
+#pragma warning(disable:4503)
+
 using namespace rapidjson;
 using namespace std;
+
+#ifdef WIN32
+using namespace std::tr1;
+#endif
 
 #define E_OK                 0
 #define E_INVALID_OPERAND    1    // operand type invalid
@@ -504,9 +511,11 @@ public:
 
 
 class BaseExecutionContext {
+    typedef unordered_map<string, Value*> VariableBindingMap;
 private:
     Event* pCurrentEvent_;
     GroupContext* pGroupContext_;
+    VariableBindingMap varBindingMap_;
 public:
     BaseExecutionContext() : pCurrentEvent_ (NULL) {
     };
@@ -514,6 +523,11 @@ public:
     void reset() {
         pCurrentEvent_ = NULL;
         pGroupContext_ = NULL;
+
+        // instead of clear the map, reset each variable to null
+        for (VariableBindingMap::iterator iter = varBindingMap_.begin(); iter != varBindingMap_.end(); iter++) {
+            iter->second = NULL;
+        }
     }
 
     Event* getCurrentEvent() {
@@ -522,6 +536,31 @@ public:
 
     void setCurrentEvent(Event* newEvent) {
         pCurrentEvent_ = newEvent;
+    }
+
+    /**
+     * set one variable binding
+     */
+    void setVariable(const string& varName, Value* pvalue) {
+        VariableBindingMap::iterator iter = varBindingMap_.find(varName);
+        if (iter != varBindingMap_.end()) {
+            iter->second = pvalue;
+        }
+        else {
+            varBindingMap_.insert(VariableBindingMap::value_type(varName, pvalue));
+        }
+    }
+
+    /**
+     * get one variable binding
+     */
+    Value* getVariable(const string& varName) {
+        Value* retValue = NULL;
+        VariableBindingMap::iterator iter = varBindingMap_.find(varName);
+        if (iter != varBindingMap_.end()) {
+            retValue = iter->second;
+        }
+        return retValue;
     }
 
     GroupContext* getGroupContext() {
@@ -563,6 +602,15 @@ public:
     };
 
     virtual Expr* clone() = 0;
+
+    /**
+     * extract path expression variables, put in varList with no duplicates
+     * it collects variables recursively through its sub expressions
+     *
+     * @varList the receive vector
+     */
+    virtual void extractVariables(vector<string>& varList) {
+    }
 };
 
 
@@ -657,10 +705,28 @@ public:
         return new BinaryExpr(op_, clonedLeft, clonedRight);
     }
 
+    Expr::OpKind getOperator() {
+        return op_;
+    }
+
     // @override
     virtual bool isConstant() {
         return left_->isConstant() && right_->isConstant();
-    };
+    }
+
+    // @override
+    virtual void extractVariables(vector<string>& varList) {
+        left_->extractVariables(varList);
+        right_->extractVariables(varList);
+    }
+
+    Expr* getLeftExpr() {
+        return left_;
+    }
+
+    Expr* getRightExpr() {
+        return right_;
+    }
 };
 
 
@@ -703,6 +769,11 @@ public:
     virtual bool isConstant() {
         return operand_->isConstant();
     };
+
+    // @override
+    virtual void extractVariables(vector<string>& varList) {
+        operand_->extractVariables(varList);
+    }
 };
 
 class StringValue : public Expr {
@@ -905,6 +976,16 @@ public:
         return pNewArray;
     }
 
+    // @override
+    virtual void extractVariables(vector<string>& varList) {
+        if (elementList_ == NULL)
+            return;
+
+        for (vector<Expr*>::const_iterator iter = elementList_->begin(); iter < elementList_->end(); iter++) {
+            (*iter)->extractVariables(varList);
+        }
+    }
+
 private:
     /**
      * evaluate each element expr, copy its resulting value into the array object
@@ -1026,6 +1107,7 @@ private:
     vector<PathExpr*>  children_;
     Variant ret_;
     Variant var_;
+    Value nullValue_;  // used for variable which is not available from the context
 public:
     VarRefExpr(const char* pszVarName) : varName_(pszVarName) {       
     }
@@ -1066,8 +1148,14 @@ public:
             var_.setValue(v);
         }
         else {
-            // TODO if reference to other names
-            printf("varName_=%s\n", varName_.c_str());
+            Value* pv = pCtx->getVariable(varName_);
+            if (pv) {
+                var_.setValue(*pv);
+            }
+            else {
+                var_.setValue(nullValue_);
+            }
+            // printf("varName_=%s\n", varName_.c_str());
         }
         
         // evaluate path down to leaf
@@ -1086,6 +1174,22 @@ public:
         }
         return clonedExpr;
    }
+
+    // @override
+    virtual void extractVariables(vector<string>& varList) {
+        bool notExist = true;
+        for (vector<string>::const_iterator iter = varList.begin(); iter < varList.end(); iter++) {
+            if (varName_.compare(*iter) == 0) {
+                notExist = false;
+                break;
+            }
+        }
+
+        // only add if a variable is not in the list yet.
+        if (notExist) {
+            varList.push_back(varName_);
+        }
+    }
 };
 
 
@@ -1352,6 +1456,14 @@ public:
        Expr* clonedEnd = (endIndex_== NULL) ? NULL : endIndex_->clone();
        return new ArrayElementsExpr(clonedBegin, clonedEnd);
    }
+
+    // @override
+    virtual void extractVariables(vector<string>& varList) {
+        if (beginIndex_)
+            beginIndex_->extractVariables(varList);
+        if (endIndex_) 
+            endIndex_->extractVariables(varList);
+    }
 };
 
 class RecordConstructExpr;
@@ -1384,6 +1496,11 @@ public:
     virtual Expr* clone() {
         Expr* clonedValueExpr = mValue_->clone();
         return new RecordMemberExpr(mName_.c_str(), clonedValueExpr);
+    }
+
+    // @override
+    virtual void extractVariables(vector<string>& varList) {
+        mValue_->extractVariables(varList);
     }
 };
 
@@ -1460,6 +1577,12 @@ public:
         return clonedRecordExpr;
    }
 
+    // @override
+    virtual void extractVariables(vector<string>& varList) {
+        for (vector<RecordMemberExpr*>::const_iterator iter = memberList_->begin(); iter < memberList_->end(); iter++) {
+            (*iter)->extractVariables(varList);
+        }
+    }
 private:
     void constructRecordFromMemberExprs(BaseExecutionContext* pCtx) {
         recordValue_.SetObject();                       // set the result to an empty object
@@ -1529,4 +1652,5 @@ private:
         } // end for loop
     }
 };
+
 #endif

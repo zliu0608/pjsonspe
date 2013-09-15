@@ -110,6 +110,11 @@ id        {alpha}[A-Za-z0-9_]*
 
 "reduce"       {mycolumnno += yyleng; return REDUCE;}
 
+"join"         {mycolumnno += yyleng; return JOIN;}
+"where"        {mycolumnno += yyleng; return WHERE;}
+"as"           {mycolumnno += yyleng; return AS;}
+"preserve"     {mycolumnno += yyleng; return PRESERVE;}
+
 "shuffle"      {mycolumnno += yyleng; return SHUFFLE;}
 "all"          {mycolumnno += yyleng; return ALL;}
                 

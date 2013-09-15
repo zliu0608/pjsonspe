@@ -60,6 +60,13 @@ public:
     virtual int getStateKey() {
         return stateContextKey_;
     }
+
+    // @override
+    virtual void extractVariables(vector<string>& varList) {
+        for (vector<Expr*>::const_iterator iter = argumentList_->begin(); iter< argumentList_->end(); iter++) {
+            (*iter)->extractVariables(varList);
+        }
+    }
 protected:
 
     /**

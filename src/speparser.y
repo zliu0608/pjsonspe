@@ -8,6 +8,7 @@
 #include "window.h"
 #include "group.h"
 #include "reduce.h"
+#include "join.h"
 #include "speparser.h"
 
 using namespace std;
@@ -39,6 +40,11 @@ using namespace std;
 %type reduce_cmd {BaseOperator*}
 %type group_expr {GroupExpr*}
 %type group_exprs {vector<GroupExpr*>*}
+
+%type join_cmd {JoinOperator*}
+%type join_ds {JoinDataSource*}
+%type join_ds_list {vector<JoinDataSource*>*}
+
 %type expr {Expr*}
 %type pri_expr {Expr*}
 %type exprs {vector<Expr*>*}
@@ -124,6 +130,61 @@ commands(A) ::= command(B). {
 commands(A) ::= commands(B) PIPE command(C). {
       A = B;
       A->push_back(C);
+}
+
+
+commands(A) ::= join_cmd(B). {
+      // generate a proxy pipeline for each join datasource
+      for (int i=0; i< B->getDatasSourceNum(); i++) {
+         JoinInputProxyOperator* proxyOperator = new JoinInputProxyOperator(i, B->getDataSource(i)->getConnectPointName().c_str());
+         proxyOperator->setJoinOperator(B);
+         vector<BaseOperator*>* thePoxyPipeline = new vector<BaseOperator*>();
+         thePoxyPipeline->push_back(proxyOperator);
+         
+         // wire the proxy pipeline together with the corresponding ConnectPoint
+         ConnectPointOperator* theConnectPoint = pParseContext->getConnectPointOperator(proxyOperator->getConnectPointName().c_str());
+         theConnectPoint->addTargetPipeline(thePoxyPipeline);    
+         
+         pParseContext->curPipeline = thePoxyPipeline;
+         pParseContext->allPipelines.push_back(thePoxyPipeline);
+      }
+      
+      A = new vector<BaseOperator*>();
+      A->push_back(B);
+      
+      // set current pipeline, add it into all pipelines
+      pParseContext->curPipeline = A;
+      pParseContext->allPipelines.push_back(A);      
+}
+
+join_cmd(A) ::= JOIN join_ds_list(B) WHERE expr(C) INTO expr(D). {
+       A = new JoinOperator(B, C, D);       
+}
+
+join_ds(A) ::= ID(B). {
+       ConnectPointOperator* bPoint = pParseContext->getConnectPointOperator(B.z);       
+       A = new JoinDataSource(B.z, B.z, false, !bPoint->isFromWindow());
+}
+
+join_ds(A) ::= ID(B) AS ID(C). {
+       ConnectPointOperator* bPoint = pParseContext->getConnectPointOperator(B.z);       
+       A = new JoinDataSource(B.z, C.z, false, !bPoint->isFromWindow());
+}
+
+join_ds(A) ::= PRESERVE join_ds(B). {
+       A = B;
+       A->setPreserve(true);
+}
+
+join_ds_list(A) ::= join_ds(B) COMMA join_ds(C). {
+       A = new vector<JoinDataSource*>();
+       A->push_back(B);
+       A->push_back(C);
+}
+
+join_ds_list(A) ::= join_ds_list(B) COMMA join_ds(C).{
+       A = B;
+       A->push_back(C);
 }
 
 command(A) ::= stream_cmd(B). {
