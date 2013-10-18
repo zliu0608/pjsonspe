@@ -333,7 +333,12 @@ public:
 
     int eq(Variant& ret, Variant& other) {
         bool b;
-
+        
+        if (pv_->IsNull() || other.pv_->IsNull()) {
+            // null == null
+            ret.pv_->SetBool(pv_->IsNull() && other.pv_->IsNull());
+            return E_OK;
+        }
         if (pv_->IsInt() && other.pv_->IsInt()) {            
            // int == int
            b = pv_->GetInt() == other.pv_->GetInt();
@@ -370,6 +375,11 @@ public:
     int ne(Variant& ret, Variant& other) {
         bool b;
 
+        if (pv_->IsNull() || other.pv_->IsNull()) {
+            // null != null
+            ret.pv_->SetBool(!(pv_->IsNull() && other.pv_->IsNull()));
+            return E_OK;
+        }
         if (pv_->IsInt() && other.pv_->IsInt()) {            
            // int != int
            b = pv_->GetInt() != other.pv_->GetInt();
@@ -620,6 +630,12 @@ public:
   v1.OP(ret_, v2); \
 } while (0)
 
+// some 
+#define BINARY_OP_WITH_V1(OP, v1) do { \
+  Variant& v2 = right_->eval(pCtx); \
+  v1.OP(ret_, v2); \
+} while (0)
+
 #define UNARY_OP(OP) do { \
   Variant& v1 = operand_->eval(pCtx); \
   v1.OP(ret_); \
@@ -679,10 +695,26 @@ public:
                 BINARY_OP(ne);
                 break;
             case Expr::OP_AND :
-                BINARY_OP(and);
+                { // avoid C2360 error
+                    Variant& v1 = left_->eval(pCtx);
+                    if (v1.getValue().IsBool() && v1.getValue().GetBool() == false) {
+                        ret_.getValue().SetBool(false);
+                    }
+                    else {
+                        BINARY_OP_WITH_V1(and, v1);
+                    }
+                }
                 break;
             case Expr::OP_OR :
-                BINARY_OP(or);
+                { // avoid C2360 error
+                    Variant& v1 = left_->eval(pCtx);
+                    if (v1.getValue().IsBool() && v1.getValue().GetBool()) {
+                        ret_.getValue().SetBool(true);
+                    }
+                    else {
+                        BINARY_OP_WITH_V1(or, v1);
+                    }
+                }
                 break;
             case Expr::OP_IN :
                 BINARY_OP(in);

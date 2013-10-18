@@ -108,8 +108,14 @@ void RbSourceStream::CompositeSubscriberHandler::onAvailable(EventBufferEntry & 
             pEvent->decref();
         }
         else {
-            //send the sync event in parallel execution case        
-            syncEvent_.update(NULL, Event::TYPE_SYNC, entry.event_->getTimestamp());
+            // send the sync event in parallel execution case        
+
+            // fix bug:  temporary fix, use updateTimestamp() since this event ref_count > 1, it depends on the number sync events
+            // contained by a window.   CountBased Window only needs one SyncEventObject, 
+            // but timebased window may not be the case,  and so a real fix probably should be to copy the sync event before it enters into window.
+            //
+            // syncEvent_.update(NULL, Event::TYPE_SYNC, entry.event_->getTimestamp());
+            syncEvent_.updateTimestamp(entry.event_->getTimestamp());
             for (int i = 0; i<operatorsNum; i++ ) {
                 theOperator = theGroup->operators[i];
                 theOperator->execute(seq, & syncEvent_);

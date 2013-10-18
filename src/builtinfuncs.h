@@ -503,6 +503,67 @@ public:
     }
 };
 
+
+/**
+ * bit_test function
+ *
+ * @arg1 the integer number to be tested
+ * @arg2 the bit of the number to be checked
+ *  result = arg1 & (1 << arg2);
+ */
+class BitTestFunction : public BuiltinFunctionExpr {
+public:
+    BitTestFunction(vector<Expr*>* args) : BuiltinFunctionExpr(args) {
+    }
+
+    virtual ~BitTestFunction() {
+    }
+
+    // @override
+    virtual Expr* clone() {
+        vector<Expr*>* clonedArgs = cloneArgList();
+        return new BitTestFunction(clonedArgs);
+    }
+
+    virtual Variant& eval(BaseExecutionContext* pCtx) {
+        Value& testArg = (*argumentList_)[0]->eval(pCtx).getValue();
+        Value& bitArg = (*argumentList_)[1]->eval(pCtx).getValue();
+        if ((! testArg.IsNumber()) || (! bitArg.IsNumber()) ) {
+            ret_.getValue().SetNull();
+            return ret_;
+        }
+        
+        int bit = 0;
+        if (bitArg.IsInt()) {
+            bit = bitArg.GetInt();
+        }
+        else if (bitArg.IsUint()) {
+            bit = bitArg.GetUint();
+        }
+        else if (bitArg.IsInt64()) {
+            bit = (int) bitArg.GetInt64();
+        }
+        else if (bitArg.IsUint64()) {
+            bit = (int) bitArg.GetUint64();
+        }
+
+        if (testArg.IsInt())  {
+            ret_.getValue().SetInt(testArg.GetInt() & ( 1 << bit) );
+        }
+        else if (testArg.IsUint()) {
+            ret_.getValue().SetUint(testArg.GetUint() & ( 1 << bit) );
+        }
+        else if (testArg.IsInt64()){
+            ret_.getValue().SetInt64(testArg.GetInt64() & ( 1 << bit) );
+        }
+        else if ( testArg.IsUint64()) {
+            ret_.getValue().SetInt64(testArg.GetUint64() & ( 1 << bit) );
+        } 
+
+        return ret_;
+    }
+};
+
 /**
  * factory pattern: to create a builtin function expr from the name
  */

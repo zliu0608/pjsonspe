@@ -21,6 +21,9 @@ BuiltinFunctionExpr* createBuiltinFunction(const char* funcName, vector<Expr*>* 
     else if (0 == strcmp("is_null", funcName)) {
         return new IsNullFunction(args);
     }    
+    else if (0 == strcmp("bit_test", funcName)) {
+        return new BitTestFunction(args);
+    }   
     else if (0 == strcmp("max", funcName)) {
         return new MaxFunction(args);
     }  

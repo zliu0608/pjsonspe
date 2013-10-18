@@ -242,9 +242,13 @@ private:
             if (0 == consumers.size()) {
                 while ((availableSequence = ringBuffer.getCursor()) < sequence) {
 #ifdef _WIN32
-                    for (int n =0; n<100; n++) {
+                    //zhihui: temp   for (int n =0; n<100; n++) {
+                    for (int n =0; n<2000; n++) {
                         if (ringBuffer.getCursor()>= sequence)
                             break;
+                        
+                        if (n % 20 == 0) {
+                            
                     #if(_WIN32_WINNT >= 0x0400)
                         if(!SwitchToThread())
                             Sleep(0);                        
@@ -252,7 +256,9 @@ private:
                         Sleep(0);
                     #endif
                     }
+                    }
                     if (ringBuffer.getCursor()< sequence) {
+                        //zhihui: temp
                         Sleep(1);
                         t2 = clock();
                         if ( (t2-t1)/CLOCKS_PER_SEC * 1000000 > timeout_micros)
@@ -267,6 +273,7 @@ private:
             else {
                 while ((availableSequence = getMinimumSequence(consumers)) < sequence) {
                     t2 = clock();
+                    //zhihui: if ( (t2-t1)/CLOCKS_PER_SEC * 1000000 > timeout_micros)
                     if ( (t2-t1)/CLOCKS_PER_SEC * 1000000 > timeout_micros)
                         break;
 
@@ -489,11 +496,13 @@ protected:
         while (wrapPoint > lastConsumerMinimum_ &&
             wrapPoint > (lastConsumerMinimum_ = getMinimumSequence(consumers_))) {
             
+            //zhihui: for (int n =0; n<100; n++) {
             for (int n =0; n<100; n++) {
                 if (!(wrapPoint > lastConsumerMinimum_ &&
                       wrapPoint > (lastConsumerMinimum_ = getMinimumSequence(consumers_))
                       ))
                     break;
+                if ( n % 2 == 0) {
 #ifdef _WIN32
         #if(_WIN32_WINNT >= 0x0400)
             if(!SwitchToThread())
@@ -504,12 +513,16 @@ protected:
 #else
             sleep(0);  // yield the thread
 #endif
+                }
             } // end for loop
 
+            /*
             if (wrapPoint > lastConsumerMinimum_ &&
                   wrapPoint > (lastConsumerMinimum_ = getMinimumSequence(consumers_))
                 )
-                Sleep(1);
+                Sleep(0);
+                */
+                // zhihui: Sleep(1);
 
 #ifdef _TRACK_WAIT_TIMES
              t2 = clock();
@@ -684,7 +697,7 @@ public:
         Entry * entry;
         while (running_) {
             try {
-                long64 availableSequence = consumerBarrier_->waitFor(nextSequence, 300);  // locally cached write position
+                long64 availableSequence = consumerBarrier_->waitFor(nextSequence+20, 100);  // locally cached write position
                 if (availableSequence < nextSequence) {
                     Sleep(1);
                     continue;  // timeout occured
@@ -719,9 +732,9 @@ class RingBuffer {
     friend class ConsumerTrackingConsumerBarrier<Entry>;
     friend class ConsumerTrackingProducerBarrier<Entry>;
 private:
-    long int _p1_, _p2_, _p3_, _p4_, _p5_, _p6_, _p7_; // cache line padding
+    long64 _p1_, _p2_, _p3_, _p4_, _p5_, _p6_, _p7_; // cache line padding
     volatile long64 cursor_;
-    long int _p8_, _p9_, _p10_, _p11_, _p12_, _p13_, _p14_; // cache line padding
+    long64 _p8_, _p9_, _p10_, _p11_, _p12_, _p13_, _p14_; // cache line padding
 
     std::vector<Entry> entries_;
     int ringModMask_;

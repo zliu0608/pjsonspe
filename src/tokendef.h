@@ -1275,7 +1275,13 @@ private:
             //if (entry->getSequence() % 100000 == 0) {
                 // only output events every 10000th
                 // printf(">>> output 1 event: seq= %d, TS = %lld \n", entry->getSequence(), entry->ts_);
+#ifdef MEASURE_LATENCY 
+                int64_t latency = currentMicroSeconds() - entry->ts_;
+                printf(">>> output 1 event: (%c) seq= %d, TS = %lld, Latency = %lld us\n", ((entry->type_== Event::TYPE_PLUS) ? '+' : '-'), entry->getSequence(), entry->ts_, latency);
+
+#else
                 printf(">>> output 1 event: (%c) seq= %d, TS = %lld \n", ((entry->type_== Event::TYPE_PLUS) ? '+' : '-'), entry->getSequence(), entry->ts_);
+#endif
                 printf("%s\n", entry->jsonText_.c_str());
             //}
             minimal_iter->erase(minimal_iter->begin());

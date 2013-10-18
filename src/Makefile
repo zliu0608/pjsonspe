@@ -6,6 +6,8 @@ RAPIDJSON_INCLUDE_PATH=D:\temp\rapidjson\include
 HASH_INCLUDE_PATH=.\hash
 INCLUDEPATH=.
 GOOGLE_TEST_INCLUDEPATH=.\gtest\include
+LIBUV_INCLUDE_PATH=D:\temp\libuv\include
+LIBUV_INCLUDE_PATH2=D:\temp\libuv\include\uv-private
 
 
 BIN_DIR=bin
@@ -34,8 +36,12 @@ CLFLAGS_RELEASE = /I"$(BWINCLUDEPATH)" /I"$(INCLUDEPATH)" \
           /I"$(RAPIDJSON_INCLUDE_PATH)" \
           /I"$(HASH_INCLUDE_PATH)" \
           /I"$(GOOGLE_TEST_INCLUDEPATH)" \
+          /I"$(LIBUV_INCLUDE_PATH)" \
+          /I"$(LIBUV_INCLUDE_PATH2)" \
          /DNDEBUG /D "WIN32" \
-         /D_WIN32_WINNT=0x0400 \
+         /D_WIN32_WINNT=0x0502 \
+         /D_MSC_VER=1500 \
+         /D "MEASURE_LATENCY" \
          /nologo /W3 /WX- /MD \
          /Zi /O2 /Oi /Oy- /EHsc /Gd \
          /GS /Fo"$(BIN_DIR)\\"
@@ -44,7 +50,12 @@ CLFLAGS_DEBUG = /I"$(BWINCLUDEPATH)" /I"$(INCLUDEPATH)" \
           /I"$(RAPIDJSON_INCLUDE_PATH)" \
           /I"$(HASH_INCLUDE_PATH)" \
           /I"$(GOOGLE_TEST_INCLUDEPATH)" \
+          /I"$(LIBUV_INCLUDE_PATH)" \
+          /I"$(LIBUV_INCLUDE_PATH2)" \
           /D "_DEBUG" /D "WIN32" \
+          /D_WIN32_WINNT=0x0502 \
+          /D_MSC_VER=1500 \
+          /D "MEASURE_LATENCY" \
           /nologo /W3 /WX- /MDd \
           /ZI /Gm /Od /Oi /Oy- /EHsc /Gd \
           /Fo"$(BIN_DIR)\\"
@@ -56,11 +67,13 @@ BUILD_TYPE = RELEASE
 !if "$(BUILD_TYPE)" == "RELEASE"
 !message Making a release build......
 GTEST_LIB = gtest.lib
+LIBUV_LIB = D:\temp\libuv\x64\Release\lib\uv.lib
 LINKFLAGS = $(LINKFLAGS_RELEASE)
 CLFLAGS = $(CLFLAGS_RELEASE)
 !elseif "$(BUILD_TYPE)" == "DEBUG"
 !message Making a debug build......
 GTEST_LIB = gtestd.lib
+LIBUV_LIB = D:\temp\libuv\x64\Debug\lib\uv.lib
 LINKFLAGS = $(LINKFLAGS_DEBUG)
 CLFLAGS = $(CLFLAGS_DEBUG)
 !else
@@ -68,6 +81,9 @@ CLFLAGS = $(CLFLAGS_DEBUG)
 !endif
                   
 CL = cl
+
+_VC_MANIFEST_EMBED_EXE= \
+if exist $@.manifest mt.exe -manifest $@.manifest -outputresource:$@;1 
 
 EXES= test_engine.exe \
 	  test_ringbuffer.exe \
@@ -83,7 +99,8 @@ EXES= test_engine.exe \
       join_agg_test.exe \
       benchmark_watchlist.exe \
       benchmark_s2winjoin_agg.exe \
-      benchmark_win2winjoin_agg.exe
+      benchmark_win2winjoin_agg.exe \
+      adaptorfw_test.exe
 
 OBJS= $(BIN_DIR)\common.obj \
       $(BIN_DIR)\scanner.obj \
@@ -197,6 +214,24 @@ benchmark_win2winjoin_agg.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\b
      kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
      shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  libtcmalloc_minimal.lib  
 
+benchmark_tukp1a.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\benchmark_tukp1a.obj $(BIN_DIR)\arcanum_client.obj
+  $(LINKCMD) $(LINKFLAGS)  /INCLUDE:"__tcmalloc" /PDB:"$(BIN_DIR)\benchmark_watchlist.pdb" $(OBJS) jsonspeutils.obj benchmark_tukp1a.obj arcanum_client.obj \
+     kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
+     shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libtcmalloc_minimal.lib \
+     ws2_32.lib psapi.lib iphlpapi.lib $(LIBUV_LIB)
+  CD $(BIN_DIR)
+  $(_VC_MANIFEST_EMBED_EXE)
+  CD ..
+
+tukp1a_socket.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\benchmark_tukp1a.obj $(BIN_DIR)\socket_client_win.obj
+  $(LINKCMD) $(LINKFLAGS)  /INCLUDE:"__tcmalloc" /PDB:"$(BIN_DIR)\tukp1a_socket.pdb" $(OBJS) jsonspeutils.obj benchmark_tukp1a.obj socket_client_win.obj \
+     kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
+     shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libtcmalloc_minimal.lib \
+     ws2_32.lib psapi.lib iphlpapi.lib
+  CD $(BIN_DIR)
+  $(_VC_MANIFEST_EMBED_EXE)
+  CD ..
+
 join_test.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\join_test.obj
   $(LINKCMD) $(LINKFLAGS) /PDB:"$(BIN_DIR)\join_test.pdb" $(OBJS) jsonspeutils.obj join_test.obj \
      kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
@@ -223,6 +258,11 @@ temp_test.exe : $(OBJS) $(BIN_DIR)\jsonspeutils.obj $(BIN_DIR)\temp_test.obj
 
 test_ringbuffer.exe : $(BIN_DIR)\ringbuffer.obj $(BIN_DIR)\fcthread.obj $(BIN_DIR)\test_ringbuffer.obj
   $(LINKCMD) $(LINKFLAGS) /PDB:"$(BIN_DIR)\test_ringbuffer.pdb" ringbuffer.obj fcthread.obj test_ringbuffer.obj \
+     kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
+     shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
+
+adaptorfw_test.exe : $(OBJS) $(BIN_DIR)\adaptorfw_test.obj
+  $(LINKCMD) $(LINKFLAGS) /PDB:"$(BIN_DIR)\adaptorfw_test.pdb" $(OBJS) adaptorfw_test.obj \
      kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib \
      shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
 
